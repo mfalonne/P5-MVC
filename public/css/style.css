@@ -1,0 +1,23 @@
+
+
+@keyframes waterEffect {
+    0% {
+        transform: translateY(-1px) rotateZ(-2deg);
+    }
+    50% {
+        transform: translateY(1px) rotateZ(2deg);
+    }
+    100% {
+        transform: translateY(-1px) rotateZ(-2deg);
+    }
+}
+
+.masthead-avatar {
+    border-radius: 50%;
+    width: 300px; /* Ajoutez la largeur souhaitée */
+    height: 300px; /* Ajoutez la hauteur souhaitée */
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Ajouter une ombre */
+    animation: waterEffect 4s infinite ease-in-out;
+}
+

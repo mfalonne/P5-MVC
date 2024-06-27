@@ -1,0 +1,48 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <header class="masthead bg-primary text-white text-center">
+        <div class="container d-flex align-items-center flex-column">
+            <!-- Masthead Heading-->
+            <h1 class="masthead-heading  mb-0">Bienvenue sur mon blog! </h1>
+            <!-- Icon Divider-->
+            <div class="divider-custom divider-light">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Masthead Subheading-->
+            <p class="masthead-subheading font-weight-light mb-0">Découvrez des articles fascinants sur une variété de sujets passionnants.</p>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 m-5">
+                {# <h2 class="m-3">
+                Mes derniers articles
+                </h2> #}
+                {% for post in posts %}
+                    <div class="card mb-3">
+                        {# <img src="..." class="card-img-top" alt="..."> #}
+                        <div class="card-body">
+                            <h2>
+                                <a href="/blog/view?id={{ post.id }}">{{ post.title }}</a>
+                            </h2>
+                            <small class="text-bg-primary">
+                                Publié le : {{ post.created_at }}
+                            </small>
+                            <p>
+                                {{ post.content|slice(0, 150) | raw }}...
+                            </p>
+                            <div class="mt-3">  
+                                <a href="/blog/view?id={{ post.id }}" class="btn btn-primary">
+                                Lire Plus...
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.twig' %}
+
+{% block title %}
+  Editer un post - Mon Blog
+{% endblock %}
+
+{% block content %}
+  <div class="container masthead">
+    <h1>
+      {{ post.title ?? 'Créer un nouvel article' }}
+    </h1>
+    <form action="{{ '/dashboard/post/edit?id=' ~ post.id }}" method="POST">
+      <div class="form-group mb-3">
+        <label for="title">Titre de l'article</label>
+        <input type="text"
+          class="form-control"
+          name="title"
+          id="title"
+          name="title"
+          value="{{ post.title }}"
+          required />
+      </div>
+      <div class="form-group mb-3">
+        <label for="content">Contenu de l'article</label>
+        <textarea name="content"
+          id="content"
+          rows="8"
+          class="form-control"
+          required>
+          {{ post.content }}
+        </textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        {{ post is defined
+          ? 'Enregistrer les modifications'
+          : 'Enregistrer mon article' }}
+      </button>
+    </form>
+  </div>
+{% endblock %}

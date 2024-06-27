@@ -1,0 +1,33 @@
+{% extends 'base.twig' %}
+
+{% block title %}Connexion - Mon Blog{% endblock %}
+
+{% block content %}
+    <div class="container masthead">
+        <h1>Se connecter</h1>
+        <p>Pas encore inscrit ? <a href="/register">Inscrivez-vous ici</a>.</p>
+        <form action="/login" method="POST">
+            <div class="for-group mb-3">
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" class="form-control" name="username" id="username">
+            </div>
+            <div class="for-group mb-3">
+                <label for="password">Mot de passe </label>
+                <input type="password" class="form-control" name="password" id="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Se connecter</button>
+        </form>
+    </div>
+{% endblock %}
+{# <p>Pas encore inscrit ? <a href="/register">Inscrivez-vous ici</a>.</p>
+
+<form action="/login" method="post">
+    <label for="username">Nom d'utilisateur:</label>
+    <input type="text" id="username" name="username" required>
+
+    <label for="password">Mot de passe:</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="submit">Connexion</button>
+</form> #}
+

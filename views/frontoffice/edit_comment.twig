@@ -1,0 +1,26 @@
+{% extends 'base.twig' %}
+
+{% block title %}
+  Editer un commentaire - Mon Blog
+{% endblock %}
+
+{% block content %}
+  <div class="container masthead">
+    <h1>
+      modifier le commentaire
+    </h1>
+    <form action="{{ '/edit-comment/edit?id=' ~ comment.id }}" method="POST">
+      <div class="form-group mb-3">
+        <label for="content">Commentaire</label>
+        <textarea name="content"
+          id="content"
+          rows="8"
+          class="form-control"
+          required>
+          {{ comment.content }}
+        </textarea>
+      </div>
+      <button type="submit" class="btn btn-primary"> Enregistrer le commentaire</button>
+    </form>
+  </div>
+{% endblock %}

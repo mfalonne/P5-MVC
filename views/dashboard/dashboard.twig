@@ -1,0 +1,72 @@
+{% extends 'base.twig' %}
+
+{% block title %}
+  Dashboard - Mon Blog
+{% endblock %}
+
+{% block content %}
+  <header class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+        <!-- Masthead Heading-->
+        <h4>Bienvenue dans votre tableau de bord! </h4>   
+    </div>
+  </header>
+  {% if app.request.query.get('success') is defined %}
+    <div class="alert alert-success">
+      Vous êtes connecté
+    </div>
+  {% endif %}
+  <div class="container">
+    <a href="dashboard/post/add" class="btn btn-primary my-3">
+      Créer un nouvel article
+    </a>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">
+            #
+          </th>
+          <th scope="col">
+            Titre
+          </th>
+          <th scope="col">
+            Publié le
+          </th>
+          <th scope="col">
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        {% for post in posts %}
+          <tr>
+            <th scope="row">
+              {{ post.id }}
+            </th>
+            <td>
+              {{ post.title }}
+            </td>
+            <td>
+              {{ post.created_at }}
+            </td>
+            <td>
+              <a href="/dashboard/post/edit?id={{ post.id }}"
+                class="btn btn-warning">
+                Modifier
+              </a>
+              <form action="/dashboard/post/delete"
+                method="POST"
+                class="d-inline">
+                <input type="hidden" value="{{ post.id }}" name="id" />
+                <button type="submit" class="btn btn-danger">Supprimer</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {# <h2 class="masthead">Dashboard</h2>
+<p>Bienvenue dans votre tableau de bord.</p>
+<a href="dashboard/post/add">Ajouter un nouveau post</a> #}
+{% endblock %}
