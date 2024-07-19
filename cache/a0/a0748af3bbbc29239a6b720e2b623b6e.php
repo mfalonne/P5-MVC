@@ -78,6 +78,9 @@ class __TwigTemplate_737443d3fd8df2e9bd2d8121d2c32e35 extends Template
     <a href=\"dashboard/post/add\" class=\"btn btn-primary my-3\">
       Créer un nouvel article
     </a>
+    <a href=\"dashboard/comments\" class=\"btn btn-primary my-3\">
+      Gérer les commentaires
+    </a>
     <table class=\"table\">
       <thead>
         <tr>
@@ -97,34 +100,34 @@ class __TwigTemplate_737443d3fd8df2e9bd2d8121d2c32e35 extends Template
       </thead>
       <tbody class=\"table-group-divider\">
         ";
-        // line 41
+        // line 44
         $context['_parent'] = $context;
         $context['_seq'] = CoreExtension::ensureTraversable(($context["posts"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["post"]) {
-            // line 42
+            // line 45
             yield "          <tr>
             <th scope=\"row\">
               ";
-            // line 44
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["post"], "id", [], "any", false, false, false, 44), "html", null, true);
+            // line 47
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["post"], "id", [], "any", false, false, false, 47), "html", null, true);
             yield "
             </th>
             <td>
               ";
-            // line 47
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["post"], "title", [], "any", false, false, false, 47), "html", null, true);
+            // line 50
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["post"], "title", [], "any", false, false, false, 50), "html", null, true);
             yield "
             </td>
             <td>
               ";
-            // line 50
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["post"], "created_at", [], "any", false, false, false, 50), "html", null, true);
+            // line 53
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["post"], "created_at", [], "any", false, false, false, 53), "html", null, true);
             yield "
             </td>
             <td>
               <a href=\"/dashboard/post/edit?id=";
-            // line 53
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["post"], "id", [], "any", false, false, false, 53), "html", null, true);
+            // line 56
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["post"], "id", [], "any", false, false, false, 56), "html", null, true);
             yield "\"
                 class=\"btn btn-warning\">
                 Modifier
@@ -133,8 +136,8 @@ class __TwigTemplate_737443d3fd8df2e9bd2d8121d2c32e35 extends Template
                 method=\"POST\"
                 class=\"d-inline\">
                 <input type=\"hidden\" value=\"";
-            // line 60
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["post"], "id", [], "any", false, false, false, 60), "html", null, true);
+            // line 63
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["post"], "id", [], "any", false, false, false, 63), "html", null, true);
             yield "\" name=\"id\" />
                 <button type=\"submit\" class=\"btn btn-danger\">Supprimer</button>
               </form>
@@ -145,7 +148,7 @@ class __TwigTemplate_737443d3fd8df2e9bd2d8121d2c32e35 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['post'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 66
+        // line 69
         yield "      </tbody>
     </table>
   </div>
@@ -174,7 +177,7 @@ class __TwigTemplate_737443d3fd8df2e9bd2d8121d2c32e35 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  149 => 66,  137 => 60,  127 => 53,  121 => 50,  115 => 47,  109 => 44,  105 => 42,  101 => 41,  77 => 19,  71 => 15,  69 => 14,  61 => 8,  57 => 7,  48 => 3,  37 => 1,);
+        return array (  152 => 69,  140 => 63,  130 => 56,  124 => 53,  118 => 50,  112 => 47,  108 => 45,  104 => 44,  77 => 19,  71 => 15,  69 => 14,  61 => 8,  57 => 7,  48 => 3,  37 => 1,);
     }
 
     public function getSourceContext()
@@ -200,6 +203,9 @@ class __TwigTemplate_737443d3fd8df2e9bd2d8121d2c32e35 extends Template
   <div class=\"container\">
     <a href=\"dashboard/post/add\" class=\"btn btn-primary my-3\">
       Créer un nouvel article
+    </a>
+    <a href=\"dashboard/comments\" class=\"btn btn-primary my-3\">
+      Gérer les commentaires
     </a>
     <table class=\"table\">
       <thead>

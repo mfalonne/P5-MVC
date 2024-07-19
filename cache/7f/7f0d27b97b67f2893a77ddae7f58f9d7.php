@@ -39,7 +39,7 @@ class __TwigTemplate_723bbb1fad3c9b51683ad5cbd057eb33 extends Template
     <div class=\"container\">
         <div class=\"row\">
             <!-- Footer Location -->
-            <div class=\"col-lg-4 mb-5 mb-lg-0\">
+            <div class=\"col-lg-6 mb-5 mb-lg-0\">
                 <h4 class=\"text-uppercase mb-4\">
                 Localisation
                 </h4>
@@ -63,24 +63,13 @@ class __TwigTemplate_723bbb1fad3c9b51683ad5cbd057eb33 extends Template
                 <i class=\"fab fa-fw fa-linkedin-in\"></i>
                 </a>
             </div>
-            <!-- Footer About Text -->
-            <div class=\"col-lg-4\">
-                <h4 class=\"text-uppercase mb-4\">
-                About Freelancer
-                </h4>
-                <p class=\"lead mb-0\">
-                Freelance is a free to use, MIT licensed Bootstrap theme created by
-                <a href=\"http://startbootstrap.com\">Start Bootstrap</a>
-                .
-                </p>
-            </div>
         </div>
     </div>
     </footer>
     <div class=\"copyright py-4 text-center text-white\">
     <div class=\"container\">
         <small>Copyright &copy; ";
-        // line 45
+        // line 34
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate("now", "Y"), "html", null, true);
         yield " - Falonne - Développeuse Web </small>
     </div>
@@ -110,7 +99,7 @@ class __TwigTemplate_723bbb1fad3c9b51683ad5cbd057eb33 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  84 => 45,  38 => 1,);
+        return array (  73 => 34,  38 => 1,);
     }
 
     public function getSourceContext()
@@ -119,7 +108,7 @@ class __TwigTemplate_723bbb1fad3c9b51683ad5cbd057eb33 extends Template
     <div class=\"container\">
         <div class=\"row\">
             <!-- Footer Location -->
-            <div class=\"col-lg-4 mb-5 mb-lg-0\">
+            <div class=\"col-lg-6 mb-5 mb-lg-0\">
                 <h4 class=\"text-uppercase mb-4\">
                 Localisation
                 </h4>
@@ -142,17 +131,6 @@ class __TwigTemplate_723bbb1fad3c9b51683ad5cbd057eb33 extends Template
                 href=\"https://www.linkedin.com/in/falonne-muyombo-tshibola/\">
                 <i class=\"fab fa-fw fa-linkedin-in\"></i>
                 </a>
-            </div>
-            <!-- Footer About Text -->
-            <div class=\"col-lg-4\">
-                <h4 class=\"text-uppercase mb-4\">
-                About Freelancer
-                </h4>
-                <p class=\"lead mb-0\">
-                Freelance is a free to use, MIT licensed Bootstrap theme created by
-                <a href=\"http://startbootstrap.com\">Start Bootstrap</a>
-                .
-                </p>
             </div>
         </div>
     </div>

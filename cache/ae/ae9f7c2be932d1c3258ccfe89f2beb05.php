@@ -34,7 +34,7 @@ class __TwigTemplate_f9a6f47552215986ce6f596eb1b48306 extends Template
     protected function doDisplay(array $context, array $blocks = [])
     {
         $macros = $this->macros;
-        yield "<section class=\"page-section bg-primary text-white mb-0\" id=\"about\">
+        yield "<section class=\"page-section bg-primary text-white mb-0\" id=\"apropos\">
     <div class=\"container\">
         <!-- About Section Heading -->
         <h2 class=\"page-section-heading text-center text-uppercase text-white\">
@@ -73,7 +73,7 @@ class __TwigTemplate_f9a6f47552215986ce6f596eb1b48306 extends Template
         <!-- About Section Button -->
         <div class=\"text-center mt-4\">
             <a class=\"btn btn-xl btn-outline-light\"
-                href=\"../public/assets/pdf/Falonne-cv.pdf\"
+                href=\"assets/pdf/Falonne-cv.pdf\"
                 dowload=\"CV-Falonne\"
                 target=\"_bank\">
                 <i class=\"fas fa-download me-2\"></i>
@@ -104,7 +104,7 @@ class __TwigTemplate_f9a6f47552215986ce6f596eb1b48306 extends Template
 
     public function getSourceContext()
     {
-        return new Source("<section class=\"page-section bg-primary text-white mb-0\" id=\"about\">
+        return new Source("<section class=\"page-section bg-primary text-white mb-0\" id=\"apropos\">
     <div class=\"container\">
         <!-- About Section Heading -->
         <h2 class=\"page-section-heading text-center text-uppercase text-white\">
@@ -143,7 +143,7 @@ class __TwigTemplate_f9a6f47552215986ce6f596eb1b48306 extends Template
         <!-- About Section Button -->
         <div class=\"text-center mt-4\">
             <a class=\"btn btn-xl btn-outline-light\"
-                href=\"../public/assets/pdf/Falonne-cv.pdf\"
+                href=\"assets/pdf/Falonne-cv.pdf\"
                 dowload=\"CV-Falonne\"
                 target=\"_bank\">
                 <i class=\"fas fa-download me-2\"></i>

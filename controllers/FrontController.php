@@ -9,28 +9,44 @@ class FrontController
     // Propriété pour stocker une instance du modèle Post
     private $postModel;
 
-    // Constructeur de la classe FrontController
+    /**
+     * Constructeur de la classe FrontController.
+     * Initialise une nouvelle instance de la classe Post.
+     */
     public function __construct()
     {
         // Création d'une nouvelle instance de la classe Post et assignation à la propriété postModel
         $this->postModel = new Post();
     }
 
-    // Méthode pour obtenir tous les posts
+    /**
+     * Méthode pour obtenir tous les posts.
+     * 
+     * @return array Retourne un tableau contenant tous les posts.
+     */
     public function getAllPosts()
     {
         // Appel de la méthode read() du modèle Post pour récupérer tous les posts
         return $this->postModel->read();
     }
 
-    // Méthode pour obtenir les derniers posts
+    /**
+     * Méthode pour obtenir les derniers posts.
+     * 
+     * @return array Retourne un tableau contenant les derniers posts.
+     */
     public function getLastPosts()
     {
         // Appel de la méthode readLast() du modèle Post pour récupérer les derniers posts
         return $this->postModel->readLast();
     }
 
-    // Méthode pour obtenir un post par son ID
+    /**
+     * Méthode pour obtenir un post par son ID.
+     * 
+     * @param int $postId L'ID du post à récupérer.
+     * @return Post Retourne une instance du modèle Post contenant les détails du post.
+     */
     public function getPostById($postId)
     {
         // Assignation de l'ID du post à la propriété id de l'instance postModel

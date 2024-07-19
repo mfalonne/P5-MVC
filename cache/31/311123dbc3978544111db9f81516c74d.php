@@ -13,8 +13,8 @@ use Twig\Sandbox\SecurityNotAllowedFunctionError;
 use Twig\Source;
 use Twig\Template;
 
-/* frontoffice/contact.twig */
-class __TwigTemplate_49a85e331445c3e11c4b90dc06591f21 extends Template
+/* frontoffice/form.twig */
+class __TwigTemplate_c3571fd10aedf8556076efe8a082d5ff extends Template
 {
     private $source;
     private $macros = [];
@@ -39,7 +39,7 @@ class __TwigTemplate_49a85e331445c3e11c4b90dc06591f21 extends Template
     protected function doDisplay(array $context, array $blocks = [])
     {
         $macros = $this->macros;
-        $this->parent = $this->loadTemplate("base.twig", "frontoffice/contact.twig", 1);
+        $this->parent = $this->loadTemplate("base.twig", "frontoffice/form.twig", 1);
         yield from $this->parent->unwrap()->yield($context, array_merge($this->blocks, $blocks));
     }
 
@@ -87,7 +87,7 @@ class __TwigTemplate_49a85e331445c3e11c4b90dc06591f21 extends Template
         // line 28
         yield "                    <form action=\"";
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(($context["BASE_URL"] ?? null), "html", null, true);
-        yield "/mail/contact\" method=\"POST\" id=\"contactForm\" data-sb-form-api-token=\"API_TOKEN\">
+        yield "contact/send\" method=\"POST\" id=\"contactForm\" data-sb-form-api-token=\"API_TOKEN\">
                         <!-- Name input -->
                         <div class=\"form-floating mb-3\">
                             <input class=\"form-control\"
@@ -151,7 +151,7 @@ class __TwigTemplate_49a85e331445c3e11c4b90dc06591f21 extends Template
      */
     public function getTemplateName()
     {
-        return "frontoffice/contact.twig";
+        return "frontoffice/form.twig";
     }
 
     /**
@@ -199,7 +199,7 @@ class __TwigTemplate_49a85e331445c3e11c4b90dc06591f21 extends Template
                     {% if success %}
                         <div class=\"alert alert-success\">{{ success }}</div>
                     {% endif %}
-                    <form action=\"{{ BASE_URL }}/mail/contact\" method=\"POST\" id=\"contactForm\" data-sb-form-api-token=\"API_TOKEN\">
+                    <form action=\"{{ BASE_URL }}contact/send\" method=\"POST\" id=\"contactForm\" data-sb-form-api-token=\"API_TOKEN\">
                         <!-- Name input -->
                         <div class=\"form-floating mb-3\">
                             <input class=\"form-control\"
@@ -255,6 +255,6 @@ class __TwigTemplate_49a85e331445c3e11c4b90dc06591f21 extends Template
         </div>
     </section>
 {% endblock %}
-", "frontoffice/contact.twig", "C:\\xampp\\htdocs\\MVC-exemple\\views\\frontoffice\\contact.twig");
+", "frontoffice/form.twig", "C:\\xampp\\htdocs\\MVC-exemple\\views\\frontoffice\\form.twig");
     }
 }

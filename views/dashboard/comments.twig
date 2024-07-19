@@ -1,0 +1,53 @@
+{% extends 'base.twig' %}
+
+{% block title %}
+  Dashboard - Mon Blog
+{% endblock %}
+
+{% block content %}
+  <header class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+        <!-- Masthead Heading-->
+        <h4>Bienvenue dans votre tableau de bord! </h4>   
+    </div>
+  </header>
+  {% if app.request.query.get('success') is defined %}
+    <div class="alert alert-success">
+      Vous êtes connecté
+    </div>
+  {% endif %}
+  <div class="container mt-5">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Contenu</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        {% for comment in comments %}
+          <tr>
+            <th scope="row">{{ comment.id }}</th>
+            <td>{{ comment.content }}</td>
+            <td>
+              <form action="/dashboard/comment/validate" method="POST" class="d-inline">
+                <input type="hidden" value="{{ comment.id }}" name="id" />
+                <button type="submit" class="btn btn-warning">Valider</button>
+              </form>
+              <form action="/dashboard/comment/delete" method="POST" class="d-inline">
+                <input type="hidden" value="{{ comment.id }}" name="id" />
+                <button type="submit" class="btn btn-danger">Supprimer</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="container mb-5 mt-5">
+     <a href="/dashboard" class="btn btn-primary my-3">
+      Retourner
+    </a>
+   </div>
+{% endblock %}

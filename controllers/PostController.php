@@ -1,31 +1,43 @@
 <?php
 
+// Déclaration de la classe PostController
 class PostController
 {
     private $postModel; // Modèle pour la gestion des articles
     private $twig; // Moteur de templates Twig
 
-    // Constructeur de la classe
+    /**
+     * Constructeur de la classe PostController.
+     * Initialise une nouvelle instance du modèle Post et le moteur de templates Twig.
+     * 
+     * @param Twig_Environment $twig Le moteur de templates Twig.
+     */
     public function __construct($twig)
     {
         $this->postModel = new Post(); // Instanciation du modèle d'article
         $this->twig = $twig; // Injection du moteur de templates Twig
     }
 
-    // Méthode pour récupérer tous les articles
+    /**
+     * Méthode pour récupérer tous les articles.
+     * 
+     * @return array Retourne un tableau contenant tous les articles.
+     */
     public function getAllPosts()
     {
         return $this->postModel->read(); // Appelle la méthode de lecture de tous les articles du modèle
     }
 
-    // Méthode pour créer un nouvel article
+    /**
+     * Méthode pour créer un nouvel article.
+     * Vérifie les données de la requête POST et crée un nouvel article.
+     */
     public function createPost()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Vérifie si la requête est de type POST
             $userId = $_SESSION['user_id']; // Récupère l'ID de l'utilisateur à partir de la session
             $title = $_POST['title']; // Récupère le titre de l'article depuis les données de formulaire
             $content = $_POST['content']; // Récupère le contenu de l'article depuis les données de formulaire
-        
 
             // Attribution des valeurs aux propriétés de l'objet modèle d'article
             $this->postModel->user_id = $userId;
@@ -46,7 +58,10 @@ class PostController
         }
     }
 
-    // Méthode pour éditer un article existant
+    /**
+     * Méthode pour éditer un article existant.
+     * Vérifie les données de la requête POST et met à jour l'article spécifié.
+     */
     public function editPost()
     {
         $postId = $_GET['id'] ?? null; // Récupère l'ID de l'article depuis les paramètres de requête
@@ -83,13 +98,14 @@ class PostController
         }
     }
 
-    // Méthode pour supprimer un article
+    /**
+     * Méthode pour supprimer un article.
+     * Vérifie les données de la requête POST et supprime l'article spécifié.
+     */
     public function deletePost()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) { // Vérifie si la requête est de type POST et si l'ID de l'article est présent
             $postId = intval($_POST['id']); // Convertit l'ID de l'article en un entier
-
-            
 
             // Supprime l'article de la base de données via le modèle
             if ($this->postModel->delete($postId)) {
@@ -101,11 +117,31 @@ class PostController
         }
     }
 
-    // Méthode pour récupérer un article par son ID
+    /**
+     * Méthode pour récupérer un article par son ID.
+     * 
+     * @param int $postId L'ID de l'article à récupérer.
+     * @return Post Retourne une instance du modèle Post contenant les détails de l'article.
+     */
     public function getPostById($postId)
     {
         $this->postModel->id = $postId; // Attribution de l'ID de l'article à l'objet modèle d'article
         $this->postModel->readOne(); // Récupère les détails de l'article à partir de la base de données
         return $this->postModel; // Retourne l'objet modèle d'article avec les détails récupérés
     }
+
+    /**
+     * Méthode pour afficher les détails d'un article.
+     * 
+     * @param int $postId L'ID de l'article à afficher.
+     */
+    public function viewPost($postId)
+    {
+        $postModel = new Post(); // Instancie un nouvel objet Post
+        $commentModel = new Comment(); // Instancie un nouvel objet Comment
+        $post = $postModel->getPostById($postId); // Récupère les détails de l'article par son ID
+        $comments = $commentModel->getValidatedCommentsByPostId($postId); // Récupère les commentaires validés associés à l'article
+        echo $this->twig->render('post_detail.twig', ['post' => $post, 'comments' => $comments]); // Affiche la vue des détails de l'article avec les commentaires
+    }
 }
+

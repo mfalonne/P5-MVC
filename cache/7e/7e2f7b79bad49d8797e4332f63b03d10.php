@@ -57,10 +57,10 @@ class __TwigTemplate_985b319aa703ab5dcf36bf602709e231 extends Template
                     <a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"/\">Accueil</a>
                 </li>
                 <li class=\"nav-item mx-0 mx-lg-1\">
-                    <a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"#portfolio\">Portfolio</a>
+                    <a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"/#portfolio\">Portfolio</a>
                 </li>
                 <li class=\"nav-item mx-0 mx-lg-1\">
-                    <a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"#apropos\">A Propos</a>
+                    <a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"/#apropos\">A Propos</a>
                 </li>
                 <li class=\"nav-item mx-0 mx-lg-1\">
                     <a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"/contact\">Contact</a>
@@ -159,10 +159,10 @@ class __TwigTemplate_985b319aa703ab5dcf36bf602709e231 extends Template
                     <a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"/\">Accueil</a>
                 </li>
                 <li class=\"nav-item mx-0 mx-lg-1\">
-                    <a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"#portfolio\">Portfolio</a>
+                    <a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"/#portfolio\">Portfolio</a>
                 </li>
                 <li class=\"nav-item mx-0 mx-lg-1\">
-                    <a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"#apropos\">A Propos</a>
+                    <a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"/#apropos\">A Propos</a>
                 </li>
                 <li class=\"nav-item mx-0 mx-lg-1\">
                     <a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"/contact\">Contact</a>

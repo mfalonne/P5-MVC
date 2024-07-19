@@ -1,91 +1,121 @@
 <?php
 
+// Inclusion du fichier de modèle User
 require_once __DIR__ . '/../models/User.php';
 
+// Déclaration de la classe UserController
 class UserController
 {
-    private $userModel;
-    private $twig;
+    private $userModel; // Modèle pour la gestion des utilisateurs
+    private $twig; // Moteur de templates Twig
 
+    /**
+     * Constructeur de la classe UserController.
+     * Initialise une nouvelle instance du modèle User et le moteur de templates Twig.
+     * 
+     * @param Twig_Environment $twig Le moteur de templates Twig.
+     */
     public function __construct($twig)
     {
-        $this->userModel = new User();
-        $this->twig = $twig;
+        $this->userModel = new User(); // Instanciation du modèle d'utilisateur
+        $this->twig = $twig; // Injection du moteur de templates Twig
     }
 
+    /**
+     * Méthode pour inscrire un nouvel utilisateur.
+     * Vérifie les données de la requête POST et crée un nouvel utilisateur.
+     */
     public function register()
     {
-        $username = $_POST['username'] ?? '';
-        $password = $_POST['password'] ?? '';
-        $isAdmin = isset($_POST['is_admin']) ? 1 : 0;
+        $username = $_POST['username'] ?? ''; // Récupère le nom d'utilisateur depuis les données de formulaire
+        $password = $_POST['password'] ?? ''; // Récupère le mot de passe depuis les données de formulaire
+        $isAdmin = isset($_POST['is_admin']) ? 1 : 0; // Vérifie si l'utilisateur doit être administrateur
 
+        // Création de l'utilisateur dans la base de données via le modèle
         if ($this->userModel->create($username, $password, $isAdmin)) {
-            header('Location: /login');
+            header('Location: /login'); // Redirection vers la page de connexion après inscription
             exit();
         } else {
-            echo $this->twig->render('register.twig', [
+            // Affiche la vue d'inscription avec un message d'erreur en cas d'échec
+            echo $this->twig->render('frontoffice/register.twig', [
                 'error' => 'Inscription échouée. Veuillez réessayer.',
             ]);
         }
     }
 
+    /**
+     * Méthode pour connecter un utilisateur.
+     * Vérifie les données de la requête POST et connecte l'utilisateur si les informations sont correctes.
+     */
     public function login()
     {
-        $username = $_POST['username'] ?? null;
-        $password = $_POST['password'] ?? null; // Utilisation de null comme valeur par défaut pour vérifier explicitement la présence
+        $username = $_POST['username'] ?? null; // Récupère le nom d'utilisateur depuis les données de formulaire
+        $password = $_POST['password'] ?? null; // Récupère le mot de passe depuis les données de formulaire
 
+        // Vérifie si les champs sont vides
         if (empty($username) || empty($password)) {
-            echo $this->twig->render('login.twig', [
+            echo $this->twig->render('frontoffice/login.twig', [
                 'error' => 'Veuillez remplir tous les champs.',
             ]);
             return;
         }
 
-        // Supposons que cela récupère tous les utilisateurs
+        // Récupère tous les utilisateurs
         $users = $this->userModel->read();
         foreach ($users as $user) {
-            if (
-                $user['username'] === $username &&
-                password_verify($password, $user['password'])
-            ) {
+            // Vérifie le nom d'utilisateur et le mot de passe
+            if ($user['username'] === $username && password_verify($password, $user['password'])) {
+                // Initialise la session utilisateur
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['is_admin'] = $user['is_admin'];
+
+                // Redirection selon le rôle de l'utilisateur
                 if (!$_SESSION['is_admin']) {
-                   
-                    Header('Location:  /');
-           
+                    header('Location: /');
                 } else {
-                     Header('Location:  /dashboard');
-                exit();
+                    header('Location: /dashboard');
+                    exit();
                 }
             }
         }
 
-        echo $this->twig->render('login.twig', [
+        // Affiche la vue de connexion avec un message d'erreur en cas d'échec
+        echo $this->twig->render('frontoffice/login.twig', [
             'error' => 'Nom d’utilisateur ou mot de passe incorrect.',
         ]);
     }
 
+    /**
+     * Méthode pour mettre à jour un utilisateur.
+     * 
+     * @param int $id L'ID de l'utilisateur à mettre à jour.
+     * @param string $username Le nouveau nom d'utilisateur.
+     * @param string $password Le nouveau mot de passe.
+     * @param bool $isAdmin Indique si l'utilisateur est administrateur.
+     * @return bool Retourne true si la mise à jour est réussie, false sinon.
+     */
     public function updateUser($id, $username, $password, $isAdmin)
     {
         $this->userModel->id = $id;
         $this->userModel->username = $username;
         $this->userModel->password = $password;
         $this->userModel->is_admin = $isAdmin;
-        if ($this->userModel->update()) {
-            return true;
-        } else {
-            return false;
-        }
+
+        // Mise à jour de l'utilisateur dans la base de données via le modèle
+        return $this->userModel->update();
     }
 
+    /**
+     * Méthode pour supprimer un utilisateur.
+     * 
+     * @param int $id L'ID de l'utilisateur à supprimer.
+     * @return bool Retourne true si la suppression est réussie, false sinon.
+     */
     public function deleteUser($id)
     {
         $this->userModel->id = $id;
-        if ($this->userModel->delete()) {
-            return true;
-        } else {
-            return false;
-        }
+        // Suppression de l'utilisateur dans la base de données via le modèle
+        return $this->userModel->delete();
     }
 }
+

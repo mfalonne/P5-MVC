@@ -6,6 +6,7 @@ require_once __DIR__ . '/../controllers/UserController.php'; // Contrôleur pour
 require_once __DIR__ . '/../controllers/FrontController.php'; // Contrôleur pour la gestion des pages frontales
 require_once __DIR__ . '/../controllers/PostController.php'; // Contrôleur pour la gestion des articles
 require_once __DIR__ . '/../controllers/CommentController.php'; // Contrôleur pour la gestion des commentaires
+require_once __DIR__ . '/../controllers/ContactController.php'; // Contrôleur pour la gestion des contacts
 require_once __DIR__ . '/../config/config.php'; // Fichier de configuration
 
 // Démarrage de la session
@@ -27,6 +28,7 @@ $userController = new UserController($twig); // Contrôleur pour les utilisateur
 $frontController = new FrontController($twig); // Contrôleur pour les pages frontales
 $postController = new PostController($twig); // Contrôleur pour les articles
 $commentController = new CommentController($twig); // Contrôleur pour les commentaires
+$contactController = new ContactController($twig); // Contrôleur pour les contacts
 
 // Parsing de l'URL pour extraire l'identifiant du post si nécessaire
 $uri = $_SERVER['REQUEST_URI']; // Récupération de l'URL demandée
@@ -48,7 +50,15 @@ switch ($route) {
         break;
     case '/contact':
         // Page de contact
-        echo $twig->render('frontoffice/contact.twig'); // Rendu de la vue contact.twig
+        $contactController->showContactForm(); // Appeler la méthode showContactForm du contrôleur contact
+        break;
+    case '/contact/send':
+        // Envoi du formulaire de contact
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $contactController->sendContactForm(); // Appeler la méthode sendContactForm du contrôleur contact
+        } else {
+            http_response_code(405); // Méthode non autorisée
+        }
         break;
     case '/blog/view':
         // Affichage d'un article spécifique
@@ -86,78 +96,7 @@ switch ($route) {
             http_response_code(405); // Méthode non autorisée
         }
         break;
-    case '/edit-comment':
-        // Modification d'un commentaire
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Assurez-vous que l'utilisateur est connecté pour pouvoir modifier un commentaire
-            if (isset($_SESSION['user_id'])) {
-                $commentId = $_POST['comment_id'];
-                $userId = $_SESSION['user_id'];
-                $content = $_POST['content'];
-
-                // Vérifiez que le commentaire appartient à l'utilisateur connecté
-                $comment = $commentController->getCommentsByPostId($postId);
-                if ($comment && $comment['user_id'] === $userId) {
-                    if ($commentController->updateComment($comment, $content)) {
-                        // Redirection vers l'article après modification du commentaire
-                        header("Location: /blog/view?id={$comment['post_id']}");
-                    } else {
-                        // Gérer l'erreur de modification du commentaire
-                        echo $twig->render('error.twig', ['message' => 'Erreur lors de la modification du commentaire.']);
-                    }
-                } else {
-                    // Gérer le cas où le commentaire n'appartient pas à l'utilisateur ou n'existe pas
-                    echo $twig->render('error.twig', ['message' => 'Commentaire introuvable ou non autorisé.']);
-                }
-            } else {
-                // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
-                header('Location: /login');
-            }
-        } else {
-                $commentId = $_GET['id'] ?? null;
-                if ($commentId) {
-                    // Affiche la vue d'édition d'article avec les détails de l'article à éditer
-                    $comment = $commentController->getCommentsById($commentId);
-                    var_dump($comment);die();
-                    echo $twig->render('frontoffice/edit_comment.twig', ['comment' => $comment]);
-                } else {
-                    // Affiche la vue 404 si l'ID de l'article est manquant
-                    http_response_code(404);
-                    echo $this->twig->render('404.twig');
-                }
-            }
-        break;
-    case '/delete-comment':
-        // Suppression d'un commentaire
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Assurez-vous que l'utilisateur est connecté pour pouvoir supprimer un commentaire
-            if (isset($_SESSION['user_id'])) {
-                $commentId = $_POST['comment_id'];
-                $userId = $_SESSION['user_id'];
-
-                // Vérifiez que le commentaire appartient à l'utilisateur connecté
-                $comment = $commentController->getCommentsById($commentId);
-                if ($comment && $comment['user_id'] === $userId) {
-                    if ($commentController->deleteComment($commentId)) {
-                        // Redirection vers l'article après suppression du commentaire
-                        header("Location: /blog/view?id={$comment['post_id']}");
-                    } else {
-                        // Gérer l'erreur de suppression du commentaire
-                        echo $twig->render('error.twig', ['message' => 'Erreur lors de la suppression du commentaire.']);
-                    }
-                } else {
-                    // Gérer le cas où le commentaire n'appartient pas à l'utilisateur ou n'existe pas
-                    echo $twig->render('error.twig', ['message' => 'Commentaire introuvable ou non autorisé.']);
-                }
-            } else {
-                // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
-                header('Location: /login');
-            }
-        } else {
-            http_response_code(405); // Méthode non autorisée
-        }
-        break;
-
+  
     case '/login':
         // Page de connexion
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -223,10 +162,34 @@ switch ($route) {
         $posts = $frontController->getAllPosts(); // Récupérer tous les articles
         echo $twig->render('dashboard/posts.twig', ['posts' => $posts]); // Rendu de la vue dashboard/posts.twig
         break;
+
+    case '/dashboard/comments':
+        // Liste des articles dans le tableau de bord
+        if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
+            header('Location: /login'); // Redirige vers la page de connexion si l'utilisateur n'est pas connecté ou n'est pas admin
+            exit();
+        }
+        $comments = $commentController->getUnValidatedComment();
+
+        echo $twig->render('dashboard/comments.twig', ['comments' => $comments]); // Rendu de la vue dashboard/posts.twig
+        break;
+    case '/dashboard/comment/validate':
+        if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
+            header('Location: /login');
+            exit();
+        }
+        $commentController->validateComment();
+        break;
+    // gérer la suppression des commentaires
+    case '/dashboard/comment/delete':
+        if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
+            header('Location: /login');
+            exit();
+        }
+        $commentController->deleteComment();
+        break;
     default:
         // Page non trouvée (404)
         http_response_code(404); // Répondre avec un code 404
         echo $twig->render('404.twig'); // Rendu de la vue 404.twig
 }
-
-?>

@@ -1,7 +1,9 @@
 <?php
 
+// Inclusion du fichier de configuration de la base de données
 require_once __DIR__ . '/../config/Database.php';
 
+// Déclaration de la classe Post
 class Post
 {
     private $conn; // Connexion à la base de données
@@ -26,13 +28,16 @@ class Post
     {
         // Requête SQL pour insérer un nouvel article
         $query = "INSERT INTO " . $this->table . " (user_id, title, content, created_at) VALUES (:user_id, :title, :content, NOW())";
+        
+        // Préparation de la requête SQL
         $stmt = $this->conn->prepare($query);
 
         // Nettoyage des données et liaison des paramètres
         $this->user_id = htmlspecialchars(strip_tags($this->user_id));
         $this->title = htmlspecialchars(strip_tags($this->title));
-        $this->content = $this->content;
+        $this->content = $this->content; // Le contenu est conservé tel quel
 
+        // Lie les paramètres de la requête SQL aux variables correspondantes
         $stmt->bindParam(':user_id', $this->user_id);
         $stmt->bindParam(':title', $this->title);
         $stmt->bindParam(':content', $this->content);
@@ -71,9 +76,11 @@ class Post
         $query = "SELECT id, user_id, title, content, created_at FROM " . $this->table . " WHERE id = ?";
         $stmt = $this->conn->prepare($query);
 
+        // Lier le paramètre ID
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
 
+        // Récupérer le résultat
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // Attribution des valeurs récupérées aux propriétés de l'objet article
@@ -108,25 +115,7 @@ class Post
         return false;
     }
 
-    // Méthode pour supprimer un article de la base de données
-    // public function delete($postId)
-    // {
-    //     // Requête SQL pour supprimer un article
-    //     $query = "DELETE FROM " . $this->table . " WHERE id = :id";
-    //     $stmt = $this->conn->prepare($query);
-
-       
-
-    //     $this->id = htmlspecialchars(strip_tags($postId));
-    //     $stmt->bindParam(':id', $this->id);
-
-    //     // Exécution de la requête SQL et retour du résultat
-    //     if ($stmt->execute()) {
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
+    // Méthode pour supprimer un article et ses commentaires associés de la base de données
     public function delete($postId)
     {
         try {
@@ -156,4 +145,13 @@ class Post
         }
     }
 
+    // Méthode pour récupérer un article par son ID
+    public function getPostById($id)
+    {
+        $query = "SELECT * FROM " . $this->table . " WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

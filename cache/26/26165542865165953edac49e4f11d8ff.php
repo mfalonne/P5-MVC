@@ -34,111 +34,103 @@ class __TwigTemplate_dc94cc6738e18889fa45655e7fe363f5 extends Template
     protected function doDisplay(array $context, array $blocks = [])
     {
         $macros = $this->macros;
-        yield "<section class=\"page-section portfolio\" id=\"portfolio\">
-    <div class=\"container\">
-        <!-- Portfolio Section Heading -->
-        <h2 class=\"page-section-heading text-center text-uppercase text-secondary mb-0\">
-        Portfolio
-        </h2>
-        <!-- Icon Divider -->
-        <div class=\"divider-custom\">
+        yield "
+<!-------------------------- portfolio----------------------------------- -->
+<section class=\"page-section  mb-0\" id=\"portfolio\">
+    <div class=\"container text-center\">
+        <h2 class=\"mb-2 text-uppercase page-section-heading\"> Mon Portfolio</h2> 
+         <!-- Icon Divider -->
+        <div class=\"divider-custom \">
             <div class=\"divider-custom-line\"></div>
             <div class=\"divider-custom-icon\">
                 <i class=\"fas fa-star\"></i>
             </div>
             <div class=\"divider-custom-line\"></div>
         </div>
-        <!-- Portfolio Grid Items -->
-        <div class=\"row justify-content-center\">
-            <!-- Portfolio Item 1 -->
-            <div class=\"col-md-6 col-lg-4 mb-5\">
-                <div class=\"portfolio-item mx-auto\"
-                data-bs-toggle=\"modal\"
-                data-bs-target=\"#portfolioModal1\">
-                <div class=\"portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100\">
-                    <div class=\"portfolio-item-caption-content text-center text-white\">
-                    <i class=\"fas fa-plus fa-3x\"></i>
-                    </div>
+        <p class=\"mb-4 fs-5\">Ci-dessous, quelques exemples de réalisations effectuées durant la formation :
+        </p>
+        <div class=\" card-group \">
+            <div class=\"card border m-1 \">
+                <div class=\"card-header bg-transparent \">Un site e-commerce en JavaScript</div>
+                <div class=\"card-body text-success p-0\">
+                    <img src=\"assets/img/portfolio/kanap.jpg\" class=\"d-block w-100\" alt=\"\">
                 </div>
-                <img class=\"img-fluid\"
-                    src=\"assets/img/portfolio/cabin.png\"
-                    alt=\"...\" />
+                <div class=\"card-footer bg-transparent \">
+                    <button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#cours1\">En savoir plus</button>
                 </div>
             </div>
-            <!-- Portfolio Item 2 -->
-            <div class=\"col-md-6 col-lg-4 mb-5\">
-                <div class=\"portfolio-item mx-auto\"
-                data-bs-toggle=\"modal\"
-                data-bs-target=\"#portfolioModal2\">
-                <div class=\"portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100\">
-                    <div class=\"portfolio-item-caption-content text-center text-white\">
-                    <i class=\"fas fa-plus fa-3x\"></i>
-                    </div>
+            <div class=\"card border m-1 \">
+                <div class=\"card-header bg-transparent \">Une API sécurisée pour une application web</div>
+                <div class=\"card-body text-success p-0\">
+                    <img src=\"assets/img/portfolio/laPiquante.png\" class=\"d-block w-100\" alt=\"\">
                 </div>
-                <img class=\"img-fluid\"
-                    src=\"assets/img/portfolio/cake.png\"
-                    alt=\"...\" />
+                <div class=\"card-footer bg-transparent \">
+                    <button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#cours3\">En savoir plus</button>
                 </div>
+            </div> 
+            <div class=\"card border m-1 \">
+                <div class=\"card-header bg-transparent \">Application web avec React</div>
+                <div class=\"card-body text-success p-0\">
+                    <img src=\"assets/img/portfolio/kasa.png\" class=\"d-block w-100\" alt=\"\">
+                </div>
+                <div class=\"card-footer bg-transparent \">
+                    <button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#catalogue\">En savoir plus</button>
+                </div>
+            </div>    
+        </div>
+    </div>
+
+    <!------------------------------ Modal1 ------------------------>
+    <div class=\"modal fade\" id=\"cours1\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
+        <div class=\"modal-dialog\">
+            <div class=\"modal-content\">
+            <div class=\"modal-header\">
+                <h1 class=\"modal-title fs-5\" id=\"exampleModalLabel\">Cours JavaScript</h1>
+                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>
             </div>
-            <!-- Portfolio Item 3 -->
-            <div class=\"col-md-6 col-lg-4 mb-5\">
-                <div class=\"portfolio-item mx-auto\"
-                    data-bs-toggle=\"modal\"
-                    data-bs-target=\"#portfolioModal3\">
-                    <div class=\"portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100\">
-                        <div class=\"portfolio-item-caption-content text-center text-white\">
-                        <i class=\"fas fa-plus fa-3x\"></i>
-                        </div>
-                    </div>
-                    <img class=\"img-fluid\"
-                        src=\"assets/img/portfolio/circus.png\"
-                        alt=\"...\" />
-                </div>
+            <div class=\"modal-body\">
+                <img src=\"assets/img/portfolio/kanap.jpg\" class=\"d-block w-100\" alt=\"\">
+                <p class=\"mt-3\">Projet 5 du parcours DW avec OpenClassrooms.</br> L'objectif est d'intégrer dynamiquement les éléments de l’API dans les pages web avec JavaScript.</p>
             </div>
-            <!-- Portfolio Item 4 -->
-            <div class=\"col-md-6 col-lg-4 mb-5 mb-lg-0\">
-                <div class=\"portfolio-item mx-auto\"
-                    data-bs-toggle=\"modal\"
-                    data-bs-target=\"#portfolioModal4\">
-                    <div class=\"portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100\">
-                        <div class=\"portfolio-item-caption-content text-center text-white\">
-                        <i class=\"fas fa-plus fa-3x\"></i>
-                        </div>
-                    </div>
-                    <img class=\"img-fluid\"
-                        src=\"assets/img/portfolio/game.png\"
-                        alt=\"...\" />
-                </div>
+            <div class=\"modal-footer\">
+                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Fermer</button>
             </div>
-            <!-- Portfolio Item 5 -->
-            <div class=\"col-md-6 col-lg-4 mb-5 mb-md-0\">
-                <div class=\"portfolio-item mx-auto\"
-                    data-bs-toggle=\"modal\"
-                    data-bs-target=\"#portfolioModal5\">
-                    <div class=\"portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100\">
-                        <div class=\"portfolio-item-caption-content text-center text-white\">
-                        <i class=\"fas fa-plus fa-3x\"></i>
-                        </div>
-                    </div>
-                    <img class=\"img-fluid\"
-                        src=\"assets/img/portfolio/safe.png\"
-                        alt=\"...\" />
-                </div>
             </div>
-        <!-- Portfolio Item 6 -->
-            <div class=\"col-md-6 col-lg-4\">
-                <div class=\"portfolio-item mx-auto\"
-                    data-bs-toggle=\"modal\"
-                    data-bs-target=\"#portfolioModal6\">
-                    <div class=\"portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100\">
-                        <div class=\"portfolio-item-caption-content text-center text-white\">
-                        <i class=\"fas fa-plus fa-3x\"></i>
-                        </div>
-                    </div>
-                    <img class=\"img-fluid\"
-                        src=\"assets/img/portfolio/submarine.png\"
-                        alt=\"...\" />
-                </div>
+        </div>
+    </div>
+    <!------------------------------ Modal2 ------------------------>
+    <div class=\"modal fade\" id=\"cours3\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
+        <div class=\"modal-dialog\">
+            <div class=\"modal-content\">
+            <div class=\"modal-header\">
+                <h1 class=\"modal-title fs-5\" id=\"exampleModalLabel\">cas pratique</h1>
+                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>
+            </div>
+            <div class=\"modal-body\">
+                <img src=\"assets/img/portfolio/laPiquante.png\" class=\"d-block w-100\" alt=\"\">
+                <p class=\"mt-3\">Projet 6 du parcours DW avec OpenClassrooms : \"Construire une API sécurisée pour une appli d'avis gastronomiques\". Compétences évaluées : Implémenter un modèle logique de données conformément à la réglementation, stocker des données de manière sécurisée, mettre en œuvre des opérations CRUD de manière sécurisée.</p>
+            </div>
+            <div class=\"modal-footer\">
+                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Fermer</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!------------------------------ Modal3 ------------------------>
+    <div class=\"modal fade\" id=\"catalogue\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
+        <div class=\"modal-dialog\">
+            <div class=\"modal-content\">
+            <div class=\"modal-header\">
+                <h1 class=\"modal-title fs-5\" id=\"exampleModalLabel\">Cours PHP</h1>
+                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>
+            </div>
+            <div class=\"modal-body\">
+                <img src=\"assets/img/portfolio/kasa.png\" class=\"d-block w-100\" alt=\"\">
+                <p class=\"mt-3\">Le sujet du projet 7 du parcours Développeur web chez Openclassrooms porte sur la refonte d'une plateforme web de location d'appartements pour Kasa. Le site doit être créé avec React à l'aide des données de location dans un fichier JSON.</p>
+            </div>
+            <div class=\"modal-footer\">
+                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Fermer</button>
+            </div>
             </div>
         </div>
     </div>
@@ -165,111 +157,103 @@ class __TwigTemplate_dc94cc6738e18889fa45655e7fe363f5 extends Template
 
     public function getSourceContext()
     {
-        return new Source("<section class=\"page-section portfolio\" id=\"portfolio\">
-    <div class=\"container\">
-        <!-- Portfolio Section Heading -->
-        <h2 class=\"page-section-heading text-center text-uppercase text-secondary mb-0\">
-        Portfolio
-        </h2>
-        <!-- Icon Divider -->
-        <div class=\"divider-custom\">
+        return new Source("
+<!-------------------------- portfolio----------------------------------- -->
+<section class=\"page-section  mb-0\" id=\"portfolio\">
+    <div class=\"container text-center\">
+        <h2 class=\"mb-2 text-uppercase page-section-heading\"> Mon Portfolio</h2> 
+         <!-- Icon Divider -->
+        <div class=\"divider-custom \">
             <div class=\"divider-custom-line\"></div>
             <div class=\"divider-custom-icon\">
                 <i class=\"fas fa-star\"></i>
             </div>
             <div class=\"divider-custom-line\"></div>
         </div>
-        <!-- Portfolio Grid Items -->
-        <div class=\"row justify-content-center\">
-            <!-- Portfolio Item 1 -->
-            <div class=\"col-md-6 col-lg-4 mb-5\">
-                <div class=\"portfolio-item mx-auto\"
-                data-bs-toggle=\"modal\"
-                data-bs-target=\"#portfolioModal1\">
-                <div class=\"portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100\">
-                    <div class=\"portfolio-item-caption-content text-center text-white\">
-                    <i class=\"fas fa-plus fa-3x\"></i>
-                    </div>
+        <p class=\"mb-4 fs-5\">Ci-dessous, quelques exemples de réalisations effectuées durant la formation :
+        </p>
+        <div class=\" card-group \">
+            <div class=\"card border m-1 \">
+                <div class=\"card-header bg-transparent \">Un site e-commerce en JavaScript</div>
+                <div class=\"card-body text-success p-0\">
+                    <img src=\"assets/img/portfolio/kanap.jpg\" class=\"d-block w-100\" alt=\"\">
                 </div>
-                <img class=\"img-fluid\"
-                    src=\"assets/img/portfolio/cabin.png\"
-                    alt=\"...\" />
+                <div class=\"card-footer bg-transparent \">
+                    <button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#cours1\">En savoir plus</button>
                 </div>
             </div>
-            <!-- Portfolio Item 2 -->
-            <div class=\"col-md-6 col-lg-4 mb-5\">
-                <div class=\"portfolio-item mx-auto\"
-                data-bs-toggle=\"modal\"
-                data-bs-target=\"#portfolioModal2\">
-                <div class=\"portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100\">
-                    <div class=\"portfolio-item-caption-content text-center text-white\">
-                    <i class=\"fas fa-plus fa-3x\"></i>
-                    </div>
+            <div class=\"card border m-1 \">
+                <div class=\"card-header bg-transparent \">Une API sécurisée pour une application web</div>
+                <div class=\"card-body text-success p-0\">
+                    <img src=\"assets/img/portfolio/laPiquante.png\" class=\"d-block w-100\" alt=\"\">
                 </div>
-                <img class=\"img-fluid\"
-                    src=\"assets/img/portfolio/cake.png\"
-                    alt=\"...\" />
+                <div class=\"card-footer bg-transparent \">
+                    <button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#cours3\">En savoir plus</button>
                 </div>
+            </div> 
+            <div class=\"card border m-1 \">
+                <div class=\"card-header bg-transparent \">Application web avec React</div>
+                <div class=\"card-body text-success p-0\">
+                    <img src=\"assets/img/portfolio/kasa.png\" class=\"d-block w-100\" alt=\"\">
+                </div>
+                <div class=\"card-footer bg-transparent \">
+                    <button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#catalogue\">En savoir plus</button>
+                </div>
+            </div>    
+        </div>
+    </div>
+
+    <!------------------------------ Modal1 ------------------------>
+    <div class=\"modal fade\" id=\"cours1\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
+        <div class=\"modal-dialog\">
+            <div class=\"modal-content\">
+            <div class=\"modal-header\">
+                <h1 class=\"modal-title fs-5\" id=\"exampleModalLabel\">Cours JavaScript</h1>
+                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>
             </div>
-            <!-- Portfolio Item 3 -->
-            <div class=\"col-md-6 col-lg-4 mb-5\">
-                <div class=\"portfolio-item mx-auto\"
-                    data-bs-toggle=\"modal\"
-                    data-bs-target=\"#portfolioModal3\">
-                    <div class=\"portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100\">
-                        <div class=\"portfolio-item-caption-content text-center text-white\">
-                        <i class=\"fas fa-plus fa-3x\"></i>
-                        </div>
-                    </div>
-                    <img class=\"img-fluid\"
-                        src=\"assets/img/portfolio/circus.png\"
-                        alt=\"...\" />
-                </div>
+            <div class=\"modal-body\">
+                <img src=\"assets/img/portfolio/kanap.jpg\" class=\"d-block w-100\" alt=\"\">
+                <p class=\"mt-3\">Projet 5 du parcours DW avec OpenClassrooms.</br> L'objectif est d'intégrer dynamiquement les éléments de l’API dans les pages web avec JavaScript.</p>
             </div>
-            <!-- Portfolio Item 4 -->
-            <div class=\"col-md-6 col-lg-4 mb-5 mb-lg-0\">
-                <div class=\"portfolio-item mx-auto\"
-                    data-bs-toggle=\"modal\"
-                    data-bs-target=\"#portfolioModal4\">
-                    <div class=\"portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100\">
-                        <div class=\"portfolio-item-caption-content text-center text-white\">
-                        <i class=\"fas fa-plus fa-3x\"></i>
-                        </div>
-                    </div>
-                    <img class=\"img-fluid\"
-                        src=\"assets/img/portfolio/game.png\"
-                        alt=\"...\" />
-                </div>
+            <div class=\"modal-footer\">
+                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Fermer</button>
             </div>
-            <!-- Portfolio Item 5 -->
-            <div class=\"col-md-6 col-lg-4 mb-5 mb-md-0\">
-                <div class=\"portfolio-item mx-auto\"
-                    data-bs-toggle=\"modal\"
-                    data-bs-target=\"#portfolioModal5\">
-                    <div class=\"portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100\">
-                        <div class=\"portfolio-item-caption-content text-center text-white\">
-                        <i class=\"fas fa-plus fa-3x\"></i>
-                        </div>
-                    </div>
-                    <img class=\"img-fluid\"
-                        src=\"assets/img/portfolio/safe.png\"
-                        alt=\"...\" />
-                </div>
             </div>
-        <!-- Portfolio Item 6 -->
-            <div class=\"col-md-6 col-lg-4\">
-                <div class=\"portfolio-item mx-auto\"
-                    data-bs-toggle=\"modal\"
-                    data-bs-target=\"#portfolioModal6\">
-                    <div class=\"portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100\">
-                        <div class=\"portfolio-item-caption-content text-center text-white\">
-                        <i class=\"fas fa-plus fa-3x\"></i>
-                        </div>
-                    </div>
-                    <img class=\"img-fluid\"
-                        src=\"assets/img/portfolio/submarine.png\"
-                        alt=\"...\" />
-                </div>
+        </div>
+    </div>
+    <!------------------------------ Modal2 ------------------------>
+    <div class=\"modal fade\" id=\"cours3\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
+        <div class=\"modal-dialog\">
+            <div class=\"modal-content\">
+            <div class=\"modal-header\">
+                <h1 class=\"modal-title fs-5\" id=\"exampleModalLabel\">cas pratique</h1>
+                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>
+            </div>
+            <div class=\"modal-body\">
+                <img src=\"assets/img/portfolio/laPiquante.png\" class=\"d-block w-100\" alt=\"\">
+                <p class=\"mt-3\">Projet 6 du parcours DW avec OpenClassrooms : \"Construire une API sécurisée pour une appli d'avis gastronomiques\". Compétences évaluées : Implémenter un modèle logique de données conformément à la réglementation, stocker des données de manière sécurisée, mettre en œuvre des opérations CRUD de manière sécurisée.</p>
+            </div>
+            <div class=\"modal-footer\">
+                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Fermer</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!------------------------------ Modal3 ------------------------>
+    <div class=\"modal fade\" id=\"catalogue\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
+        <div class=\"modal-dialog\">
+            <div class=\"modal-content\">
+            <div class=\"modal-header\">
+                <h1 class=\"modal-title fs-5\" id=\"exampleModalLabel\">Cours PHP</h1>
+                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>
+            </div>
+            <div class=\"modal-body\">
+                <img src=\"assets/img/portfolio/kasa.png\" class=\"d-block w-100\" alt=\"\">
+                <p class=\"mt-3\">Le sujet du projet 7 du parcours Développeur web chez Openclassrooms porte sur la refonte d'une plateforme web de location d'appartements pour Kasa. Le site doit être créé avec React à l'aide des données de location dans un fichier JSON.</p>
+            </div>
+            <div class=\"modal-footer\">
+                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Fermer</button>
+            </div>
             </div>
         </div>
     </div>
