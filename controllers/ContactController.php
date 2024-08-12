@@ -18,9 +18,14 @@ class ContactController {
      * Affiche le formulaire de contact.
      * Utilise le moteur de template Twig pour rendre la vue du formulaire.
      */
-    public function showContactForm() {
-        echo $this->twig->render('frontoffice/form.twig');
+   public function showContactForm() {
+    $flash_message = isset($_SESSION['flash_message']) ? $_SESSION['flash_message'] : [];
+    // Réinitialisez les messages flash après les avoir récupérés
+    $_SESSION['flash_message'] = [];
+    
+    echo $this->twig->render('frontoffice/form.twig', ['flash_message' => $flash_message]);
     }
+
 
     /**
      * Traite l'envoi du formulaire de contact.
@@ -29,6 +34,13 @@ class ContactController {
      * @return bool Retourne true si le message est envoyé avec succès, sinon false.
      */
     public function sendContactForm() {
+
+        // Vérifie que la requête est bien une méthode POST
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo $this->twig->render('frontoffice/form.twig');
+            return false;
+        }
+
         // Vérifie si les champs obligatoires sont remplis et si l'email est valide
         if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['message']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             echo $this->twig->render('frontoffice/form.twig', ['error' => 'Certains champs sont vides ou invalides!']);
@@ -47,13 +59,16 @@ class ContactController {
         $headers = "From: falonne.muyombo@gmail.com\n";
         $headers .= "Reply-To: $email_address";
         
-        // Envoie l'email et vérifie s'il a été envoyé avec succès
+        // Redirection après soumission
         if (mail($to, $email_subject, $email_body, $headers)) {
-            echo $this->twig->render('frontoffice/form.twig', ['success' => 'Message envoyé avec succès!']);
+            $_SESSION['flash_message'] = ['success' => 'Message envoyé avec succès!'];
+            header('Location: /contact');
+            exit();
         } else {
-            echo $this->twig->render('frontoffice/form.twig', ['error' => 'Échec de l\'envoi du message!']);
+            $_SESSION['flash_message'] = ['error' => 'Échec de l\'envoi du message!'];
+            header('Location: /contact');
+            exit();
         }
-        return true;
     }
 }
 

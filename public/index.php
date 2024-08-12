@@ -67,7 +67,18 @@ switch ($route) {
         if ($postId) {
             $post = $frontController->getPostById($postId); // Récupérer l'article par ID
             $comments = $commentController->getCommentsByPostId($postId);
-            echo $twig->render('frontoffice/post_detail.twig', ['post' => $post, 'comments'=> $comments]); // Rendu de la vue post_detail.twig
+
+            // Préparer le message à afficher
+            $message = isset($_SESSION['message']) ? $_SESSION['message'] : null;
+            if ($message) {
+                unset($_SESSION['message']); // Supprimer le message après l'avoir affiché
+            }
+
+            // Rendre la vue avec Twig
+            echo $twig->render('frontoffice/post_detail.twig', [
+                'post' => $post, 
+                'comments'=> $comments,
+                'message'=> $message]); // Rendu de la vue post_detail.twig
         } else {
             http_response_code(404); // Répondre avec un code 404 si l'article n'est pas trouvé
             echo $twig->render('404.twig'); // Rendu de la vue 404.twig
@@ -78,19 +89,23 @@ switch ($route) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Assurez-vous que l'utilisateur est connecté pour pouvoir commenter
             if (isset($_SESSION['user_id'])) {
-                $postId = $_POST['post_id'];
+                $postId = intval($_POST['post_id']);
                 $userId = $_SESSION['user_id'];
                 $content = $_POST['content'];
-                if ($commentController->createComment($postId, $userId, $content)) {
-                    // Redirection vers l'article après ajout du commentaire
-                    header("Location: /blog/view?id=$postId");
-                } else {
-                    // Gérer l'erreur d'ajout du commentaire
-                    echo $twig->render('error.twig', ['message' => 'Erreur lors de l\'ajout du commentaire.']);
-                }
+                
+                // Appel de la méthode createComment et récupération du message
+                $message = $commentController->createComment($postId, $userId, $content);
+
+                // Stockage du message dans la session
+                $_SESSION['message'] = $message;
+
+                // Redirection vers l'article après ajout du commentaire
+                header("Location: /blog/view?id=$postId");
+                exit();
             } else {
                 // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
                 header('Location: /login');
+                exit();
             }
         } else {
             http_response_code(405); // Méthode non autorisée

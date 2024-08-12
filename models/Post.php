@@ -13,6 +13,7 @@ class Post
     public $id;
     public $user_id;
     public $title;
+    public $chapo;
     public $content;
     public $created_at;
 
@@ -27,7 +28,7 @@ class Post
     public function create()
     {
         // Requête SQL pour insérer un nouvel article
-        $query = "INSERT INTO " . $this->table . " (user_id, title, content, created_at) VALUES (:user_id, :title, :content, NOW())";
+        $query = "INSERT INTO " . $this->table . " (user_id, title, chapo, content, created_at) VALUES (:user_id, :title, :chapo, :content, NOW())";
         
         // Préparation de la requête SQL
         $stmt = $this->conn->prepare($query);
@@ -35,11 +36,13 @@ class Post
         // Nettoyage des données et liaison des paramètres
         $this->user_id = htmlspecialchars(strip_tags($this->user_id));
         $this->title = htmlspecialchars(strip_tags($this->title));
+        $this->chapo = $this->chapo; 
         $this->content = $this->content; // Le contenu est conservé tel quel
 
         // Lie les paramètres de la requête SQL aux variables correspondantes
         $stmt->bindParam(':user_id', $this->user_id);
         $stmt->bindParam(':title', $this->title);
+        $stmt->bindParam(':chapo', $this->chapo); // Liaison du chapo
         $stmt->bindParam(':content', $this->content);
 
         // Exécution de la requête SQL et retour du résultat
@@ -53,7 +56,7 @@ class Post
     public function read()
     {
         // Requête SQL pour sélectionner tous les articles
-        $query = "SELECT id, user_id, title, content, created_at FROM " . $this->table . " ORDER BY created_at DESC";
+        $query = "SELECT id, user_id, title, chapo, content, created_at FROM " . $this->table . " ORDER BY created_at DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -63,7 +66,7 @@ class Post
     public function readLast()
     {
         // Requête SQL pour sélectionner les derniers articles
-        $query = "SELECT id, user_id, title, content, created_at FROM " . $this->table . " ORDER BY created_at DESC LIMIT 3";
+        $query = "SELECT id, user_id, title, chapo, content, created_at FROM " . $this->table . " ORDER BY created_at DESC LIMIT 3";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -73,7 +76,7 @@ class Post
     public function readOne()
     {
         // Requête SQL pour sélectionner un article par son ID
-        $query = "SELECT id, user_id, title, content, created_at FROM " . $this->table . " WHERE id = ?";
+        $query = "SELECT id, user_id, title, chapo, content, created_at FROM " . $this->table . " WHERE id = ?";
         $stmt = $this->conn->prepare($query);
 
         // Lier le paramètre ID
@@ -86,6 +89,7 @@ class Post
         // Attribution des valeurs récupérées aux propriétés de l'objet article
         $this->user_id = $row['user_id'];
         $this->title = $row['title'];
+         $this->chapo = $row['chapo'];
         $this->content = $row['content'];
         $this->created_at = $row['created_at'];
     }
@@ -94,17 +98,19 @@ class Post
     public function update()
     {
         // Requête SQL pour mettre à jour un article
-        $query = "UPDATE " . $this->table . " SET user_id = :user_id, title = :title, content = :content WHERE id = :id";
+        $query = "UPDATE " . $this->table . " SET user_id = :user_id, title = :title, chapo = :chapo, content = :content WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
         // Nettoyage des données et liaison des paramètres
         $this->user_id = htmlspecialchars(strip_tags($this->user_id));
         $this->title = htmlspecialchars(strip_tags($this->title));
+        $this->chapo = htmlspecialchars(strip_tags($this->chapo));
         $this->content = htmlspecialchars(strip_tags($this->content));
         $this->id = htmlspecialchars(strip_tags($this->id));
 
         $stmt->bindParam(':user_id', $this->user_id);
         $stmt->bindParam(':title', $this->title);
+        $stmt->bindParam(':chapo', $this->chapo);
         $stmt->bindParam(':content', $this->content);
         $stmt->bindParam(':id', $this->id);
 

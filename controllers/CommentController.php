@@ -32,7 +32,13 @@ class CommentController
         $this->commentModel->post_id = $postId;
         $this->commentModel->user_id = $userId;
         $this->commentModel->content = $content;
-        return $this->commentModel->create();
+        // return $this->commentModel->create();
+
+        if ($this->commentModel->create()) {
+            return 'Commentaire soumis avec succès, en attente de validation.';
+        } else {
+            return 'Échec de la soumission du commentaire.';
+        }
     }
 
     /**

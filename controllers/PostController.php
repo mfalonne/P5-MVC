@@ -37,11 +37,13 @@ class PostController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Vérifie si la requête est de type POST
             $userId = $_SESSION['user_id']; // Récupère l'ID de l'utilisateur à partir de la session
             $title = $_POST['title']; // Récupère le titre de l'article depuis les données de formulaire
+            $chapo = $_POST['chapo']; // Récupère le chapo de l'article depuis les données de formulaire
             $content = $_POST['content']; // Récupère le contenu de l'article depuis les données de formulaire
 
             // Attribution des valeurs aux propriétés de l'objet modèle d'article
             $this->postModel->user_id = $userId;
             $this->postModel->title = $title;
+            $this->postModel->chapo = $chapo;
             $this->postModel->content = $content;
 
             // Création de l'article dans la base de données via le modèle
@@ -69,12 +71,14 @@ class PostController
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $postId) { // Vérifie si la requête est de type POST et si l'ID de l'article est présent
             $userId = $_SESSION['user_id']; // Récupère l'ID de l'utilisateur à partir de la session
             $title = $_POST['title']; // Récupère le titre de l'article depuis les données de formulaire
+            $chapo = $_POST['chapo']; // Récupère le chapo de l'article depuis les données de formulaire
             $content = $_POST['content']; // Récupère le contenu de l'article depuis les données de formulaire
 
             // Attribution des valeurs aux propriétés de l'objet modèle d'article
             $this->postModel->id = $postId;
             $this->postModel->user_id = $userId;
             $this->postModel->title = $title;
+            $this->postModel->chapo = $chapo;
             $this->postModel->content = $content;
 
             // Mise à jour de l'article dans la base de données via le modèle

@@ -18,12 +18,14 @@
             <!-- Contact Section Form -->
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-7">
-                <!-- * * * * * Formulaire* * * * * * * * * * -->
-                    {% if error %}
-                        <div class="alert alert-danger">{{ error }}</div>
-                    {% endif %}
-                    {% if success %}
-                        <div class="alert alert-success">{{ success }}</div>
+                    <!-- Formulaire -->
+                    {% if flash_message %}
+                        {% if flash_message.success %}
+                            <div class="alert alert-success">{{ flash_message.success }}</div>
+                        {% endif %}
+                        {% if flash_message.error %}
+                            <div class="alert alert-danger">{{ flash_message.error }}</div>
+                        {% endif %}
                     {% endif %}
                     <form action="{{ BASE_URL }}contact/send" method="POST" id="contactForm" data-sb-form-api-token="API_TOKEN">
                         <!-- Name input -->
