@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 19 juil. 2024 à 18:24
+-- Généré le : lun. 12 août 2024 à 20:50
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -41,9 +41,8 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id`, `post_id`, `user_id`, `content`, `created_at`, `is_validated`) VALUES
-(24, 7, 15, 'commentaire', '2024-07-18 09:19:48', 1),
-(25, 7, 15, 'new commentaire ', '2024-07-18 09:31:04', 1),
-(26, 7, 18, 'commentaire de bene', '2024-07-18 09:50:41', 1);
+(30, 20, 15, 'ajout de commentaire', '2024-08-12 18:04:23', 1),
+(34, 20, 15, 'ajoute de commentaire++++', '2024-08-12 20:33:59', 1);
 
 -- --------------------------------------------------------
 
@@ -55,6 +54,7 @@ CREATE TABLE `posts` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
+  `chapo` text NOT NULL,
   `content` text NOT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -63,9 +63,8 @@ CREATE TABLE `posts` (
 -- Déchargement des données de la table `posts`
 --
 
-INSERT INTO `posts` (`id`, `user_id`, `title`, `content`, `created_at`) VALUES
-(3, 14, 'Mon 3ieme articles', 'contenue de 3ieme articles', '2024-05-16 11:29:57'),
-(7, 15, 'Nouvel article', '          Contenue nouvel article+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\r\n        ', '2024-06-12 00:13:24');
+INSERT INTO `posts` (`id`, `user_id`, `title`, `chapo`, `content`, `created_at`) VALUES
+(20, 15, ' PHP : Le Langage Indispensable pour Développer des Sites Web Dynamiques', 'PHP est l&#039;un des langages de programmation les plus populaires pour le développement web. Simple à apprendre et puissant, il est utilisé par des millions de sites à travers le monde. Découvrez pourquoi PHP est incontournable pour les développeurs.\r\n        ', '          PHP, ou Hypertext Preprocessor, est un langage de script open-source principalement utilisé pour créer des pages web dynamiques. Depuis son lancement en 1995, il s&#039;est imposé comme un outil essentiel pour les développeurs web. Mais qu&#039;est-ce qui rend PHP si spécial ?\r\n\r\nFacilité d&#039;apprentissage : PHP est conçu pour être simple à utiliser. Même les débutants peuvent rapidement créer des scripts fonctionnels, ce qui en fait un excellent point de départ pour ceux qui souhaitent se lancer dans le développement web.\r\n\r\nLarge communauté et support : PHP bénéficie d&#039;une immense communauté de développeurs. Cela signifie que vous trouverez une multitude de ressources, de tutoriels, et de forums pour vous aider à résoudre les problèmes et à améliorer vos compétences.\r\n\r\nCompatibilité et flexibilité : PHP est compatible avec la majorité des serveurs web et des systèmes d&#039;exploitation. De plus, il s&#039;intègre facilement avec des bases de données comme MySQL, ce qui permet de créer des sites et applications web robustes et interactifs.\r\n\r\nPuissance et performance : Malgré sa simplicité, PHP est capable de gérer des tâches complexes, y compris la gestion de contenu, l&#039;interaction avec des bases de données, et la gestion de fichiers, tout en offrant de bonnes performances.\r\n        ', '2024-08-12 18:03:30');
 
 -- --------------------------------------------------------
 
@@ -122,13 +121,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT pour la table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT pour la table `users`
