@@ -1,11 +1,17 @@
 <?php
-// Détection automatique du chemin de base en fonction de l'environnement
+// Validation du schéma HTTP ou HTTPS
+$scheme = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
 
-// Initialisation de la variable $base_url avec le protocole HTTP ou HTTPS selon le cas
-$base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'];
+// Validation du nom d'hôte pour éviter les caractères non désirés
+$host = filter_var($_SERVER['HTTP_HOST'], FILTER_SANITIZE_STRING);
 
-// Ajout du chemin du script en supprimant le nom du script lui-même pour obtenir le chemin de base
-$base_url .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+// Construction de l'URL de base
+$base_url = $scheme . '://' . $host;
 
-// Définition de la constante BASE_URL avec la valeur du chemin de base calculé
+// Ajouter le chemin du script sans le nom du fichier pour obtenir le chemin de base
+$script_name = basename($_SERVER['SCRIPT_NAME']);
+$base_url .= str_replace($script_name, '', $_SERVER['SCRIPT_NAME']);
+
+// Définition de la constante BASE_URL
 define('BASE_URL', $base_url);
+
