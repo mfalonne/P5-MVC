@@ -12,14 +12,13 @@ class Database
     private $password; // Mot de passe pour la base de données
     private $conn; // Variable pour l'objet de connexion PDO
 
-    public function __construct()
+   public function __construct()
     {
-        $this->host = $_ENV['DB_HOST'];
-        $this->db_name = $_ENV['DB_NAME'];
-        $this->username = $_ENV['DB_USER'];
-        $this->password = $_ENV['DB_PASS'];
+        $this->host = isset($_ENV['DB_HOST']) ? $_ENV['DB_HOST'] : 'localhost'; // Remplacez 'localhost' par la valeur par défaut appropriée
+        $this->db_name = isset($_ENV['DB_NAME']) ? $_ENV['DB_NAME'] : 'default_db_name'; // Remplacez 'default_db_name' par la valeur par défaut appropriée
+        $this->username = isset($_ENV['DB_USER']) ? $_ENV['DB_USER'] : 'default_user'; // Remplacez 'default_user' par la valeur par défaut appropriée
+        $this->password = isset($_ENV['DB_PASS']) ? $_ENV['DB_PASS'] : 'default_password'; // Remplacez 'default_password' par la valeur par défaut appropriée
     }
-
     // Méthode pour obtenir la connexion à la base de données
     public function getConnection()
     {
