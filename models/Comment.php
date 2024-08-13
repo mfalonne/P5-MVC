@@ -37,15 +37,12 @@ class Comment
         $this->content = htmlspecialchars(strip_tags($this->content));
 
         // Lier les paramètres
-        $stmt->bindParam(':post_id', $this->post_id);
-        $stmt->bindParam(':user_id', $this->user_id);
-        $stmt->bindParam(':content', $this->content);
+        $stmt->bindParam(':post_id', $this->post_id, PDO::PARAM_INT);
+        $stmt->bindParam(':user_id', $this->user_id, PDO::PARAM_INT);
+        $stmt->bindParam(':content', $this->content, PDO::PARAM_STR);
 
         // Exécuter la requête
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
+        return $stmt->execute();
     }
 
     // Lire tous les commentaires validés d'un post
@@ -55,12 +52,12 @@ class Comment
         $query = "SELECT c.id, c.post_id, c.user_id, c.content, c.created_at, u.username AS user_name 
                   FROM " . self::TABLE_NAME . " c 
                   JOIN users u ON c.user_id = u.id 
-                  WHERE c.post_id = ? AND c.is_validated = true 
+                  WHERE c.post_id = :post_id AND c.is_validated = true 
                   ORDER BY c.created_at DESC";
         $stmt = $this->conn->prepare($query);
 
         // Lier le paramètre
-        $stmt->bindParam(1, $this->post_id, PDO::PARAM_INT);
+        $stmt->bindParam(':post_id', $this->post_id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt;
     }
@@ -69,18 +66,16 @@ class Comment
     public function readById($commentId)
     {
         // Requête SQL pour sélectionner un commentaire par ID
-        $commentId = intval($commentId);
         $query = "SELECT c.id, c.post_id, c.user_id, c.content, c.created_at, u.username AS user_name 
                   FROM " . self::TABLE_NAME . " c
                   JOIN users u ON c.user_id = u.id
-                  WHERE c.id = ?";
+                  WHERE c.id = :id";
         $stmt = $this->conn->prepare($query);
 
         // Lier le paramètre
-        $stmt->bindParam(1, $commentId, PDO::PARAM_INT);
+        $stmt->bindParam(':id', $commentId, PDO::PARAM_INT);
         $stmt->execute();
-        $comment = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $comment;
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // Lire un commentaire
@@ -89,11 +84,11 @@ class Comment
         // Requête SQL pour sélectionner un commentaire par ID sans JOIN
         $query = "SELECT id, post_id, user_id, content, created_at 
                 FROM " . self::TABLE_NAME . " 
-                WHERE id = ?";
+                WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
         // Lier le paramètre
-        $stmt->bindParam(1, $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
         $stmt->execute();
 
         // Récupérer le résultat
@@ -129,10 +124,7 @@ class Comment
         $stmt->bindParam(':id', $commentId, PDO::PARAM_INT);
 
         // Exécuter la requête
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
+        return $stmt->execute();
     }
 
     // Supprimer un commentaire
@@ -144,10 +136,7 @@ class Comment
         $stmt->bindParam(':id', $commentId, PDO::PARAM_INT);
 
         // Exécuter la requête
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
+        return $stmt->execute();
     }
 
     // Méthode pour récupérer les commentaires validés d'un post
