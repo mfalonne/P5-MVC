@@ -7,7 +7,7 @@ require_once '../config/Database.php';
 class User
 {
     private $conn; // Connexion à la base de données
-    private const TABLE_NAME = 'users'; // Nom de la table des utilisateurs (constante)
+    private $table = 'users'; // Nom de la table des utilisateurs
 
     // Propriétés de l'utilisateur
     public $id;
@@ -25,21 +25,21 @@ class User
     // Méthode pour créer un nouvel utilisateur dans la base de données
     public function create($username, $password, $isAdmin)
     {
-        // Requête SQL pour insérer un nouvel utilisateur
-        $query = 'INSERT INTO ' . self::TABLE_NAME . ' (username, password, is_admin) VALUES (:username, :password, :is_admin)';
+        // Requête SQL pour insérer un nouvel utilisateur avec liaison de paramètres
+        $query = 'INSERT INTO ' . $this->table . ' (username, password, is_admin) VALUES (:username, :password, :is_admin)';
         
         // Préparation de la requête SQL
         $stmt = $this->conn->prepare($query);
 
-        // Nettoyage des données et liaison des paramètres
+        // Nettoyage des données
         $this->username = htmlspecialchars(strip_tags($username));
         $this->password = password_hash($password, PASSWORD_DEFAULT); // Hashage du mot de passe
         $this->is_admin = htmlspecialchars(strip_tags($isAdmin));
 
         // Liaison des paramètres à la requête SQL
-        $stmt->bindParam(':username', $this->username);
-        $stmt->bindParam(':password', $this->password);
-        $stmt->bindParam(':is_admin', $this->is_admin);
+        $stmt->bindParam(':username', $this->username, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $this->password, PDO::PARAM_STR);
+        $stmt->bindParam(':is_admin', $this->is_admin, PDO::PARAM_INT);
 
         // Exécution de la requête SQL et retour du résultat
         if ($stmt->execute()) {
@@ -51,8 +51,8 @@ class User
     // Méthode pour lire tous les utilisateurs de la base de données
     public function read()
     {
-        // Requête SQL pour sélectionner tous les utilisateurs
-        $query = 'SELECT id, username, password, is_admin FROM ' . self::TABLE_NAME;
+        // Requête SQL pour sélectionner tous les utilisateurs avec liaison de paramètres
+        $query = 'SELECT id, username, password, is_admin FROM ' . $this->table;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -61,12 +61,12 @@ class User
     // Méthode pour lire un utilisateur spécifique de la base de données
     public function readOne()
     {
-        // Requête SQL pour sélectionner un utilisateur par son ID
-        $query = 'SELECT id, username, is_admin FROM ' . self::TABLE_NAME . ' WHERE id = ?';
+        // Requête SQL pour sélectionner un utilisateur par son ID avec liaison de paramètres
+        $query = 'SELECT id, username, is_admin FROM ' . $this->table . ' WHERE id = :id';
         $stmt = $this->conn->prepare($query);
 
         // Liaison du paramètre ID
-        $stmt->bindParam(1, $this->id);
+        $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
         $stmt->execute();
 
         // Récupération du résultat
@@ -80,21 +80,21 @@ class User
     // Méthode pour mettre à jour un utilisateur dans la base de données
     public function update()
     {
-        // Requête SQL pour mettre à jour un utilisateur
-        $query = 'UPDATE ' . self::TABLE_NAME . ' SET username = :username, password = :password, is_admin = :is_admin WHERE id = :id';
+        // Requête SQL pour mettre à jour un utilisateur avec liaison de paramètres
+        $query = 'UPDATE ' . $this->table . ' SET username = :username, password = :password, is_admin = :is_admin WHERE id = :id';
         $stmt = $this->conn->prepare($query);
 
-        // Nettoyage des données et liaison des paramètres
+        // Nettoyage des données
         $this->username = htmlspecialchars(strip_tags($this->username));
         $this->password = password_hash($this->password, PASSWORD_DEFAULT); // Hashage du mot de passe lors de la mise à jour
         $this->is_admin = htmlspecialchars(strip_tags($this->is_admin));
         $this->id = htmlspecialchars(strip_tags($this->id));
 
         // Liaison des paramètres à la requête SQL
-        $stmt->bindParam(':username', $this->username);
-        $stmt->bindParam(':password', $this->password);
-        $stmt->bindParam(':is_admin', $this->is_admin);
-        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':username', $this->username, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $this->password, PDO::PARAM_STR);
+        $stmt->bindParam(':is_admin', $this->is_admin, PDO::PARAM_INT);
+        $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
 
         // Exécution de la requête SQL et retour du résultat
         if ($stmt->execute()) {
@@ -106,13 +106,13 @@ class User
     // Méthode pour supprimer un utilisateur de la base de données
     public function delete()
     {
-        // Requête SQL pour supprimer un utilisateur par son ID
-        $query = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE id = :id';
+        // Requête SQL pour supprimer un utilisateur par son ID avec liaison de paramètres
+        $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
         $stmt = $this->conn->prepare($query);
 
-        // Nettoyage des données et liaison des paramètres
+        // Nettoyage des données
         $this->id = htmlspecialchars(strip_tags($this->id));
-        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
 
         // Exécution de la requête SQL et retour du résultat
         if ($stmt->execute()) {
