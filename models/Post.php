@@ -7,7 +7,7 @@ require_once __DIR__ . '/../config/Database.php';
 class Post
 {
     private $conn; // Connexion à la base de données
-    private $table = 'posts'; // Nom de la table des articles
+    private const TABLE_NAME = 'posts'; // Nom de la table des articles (constante)
 
     // Propriétés de l'article
     public $id;
@@ -28,7 +28,7 @@ class Post
     public function create()
     {
         // Requête SQL pour insérer un nouvel article
-        $query = "INSERT INTO " . $this->table . " (user_id, title, chapo, content, created_at) VALUES (:user_id, :title, :chapo, :content, NOW())";
+        $query = "INSERT INTO " . self::TABLE_NAME . " (user_id, title, chapo, content, created_at) VALUES (:user_id, :title, :chapo, :content, NOW())";
         
         // Préparation de la requête SQL
         $stmt = $this->conn->prepare($query);
@@ -56,7 +56,7 @@ class Post
     public function read()
     {
         // Requête SQL pour sélectionner tous les articles
-        $query = "SELECT id, user_id, title, chapo, content, created_at FROM " . $this->table . " ORDER BY created_at DESC";
+        $query = "SELECT id, user_id, title, chapo, content, created_at FROM " . self::TABLE_NAME . " ORDER BY created_at DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -66,7 +66,7 @@ class Post
     public function readLast()
     {
         // Requête SQL pour sélectionner les derniers articles
-        $query = "SELECT id, user_id, title, chapo, content, created_at FROM " . $this->table . " ORDER BY created_at DESC LIMIT 3";
+        $query = "SELECT id, user_id, title, chapo, content, created_at FROM " . self::TABLE_NAME . " ORDER BY created_at DESC LIMIT 3";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -76,7 +76,7 @@ class Post
     public function readOne()
     {
         // Requête SQL pour sélectionner un article par son ID
-        $query = "SELECT id, user_id, title, chapo, content, created_at FROM " . $this->table . " WHERE id = ?";
+        $query = "SELECT id, user_id, title, chapo, content, created_at FROM " . self::TABLE_NAME . " WHERE id = ?";
         $stmt = $this->conn->prepare($query);
 
         // Lier le paramètre ID
@@ -89,7 +89,7 @@ class Post
         // Attribution des valeurs récupérées aux propriétés de l'objet article
         $this->user_id = $row['user_id'];
         $this->title = $row['title'];
-         $this->chapo = $row['chapo'];
+        $this->chapo = $row['chapo'];
         $this->content = $row['content'];
         $this->created_at = $row['created_at'];
     }
@@ -98,7 +98,7 @@ class Post
     public function update()
     {
         // Requête SQL pour mettre à jour un article
-        $query = "UPDATE " . $this->table . " SET user_id = :user_id, title = :title, chapo = :chapo, content = :content WHERE id = :id";
+        $query = "UPDATE " . self::TABLE_NAME . " SET user_id = :user_id, title = :title, chapo = :chapo, content = :content WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
         // Nettoyage des données et liaison des paramètres
@@ -135,7 +135,7 @@ class Post
             $stmtComments->execute();
 
             // Ensuite, supprime l'article
-            $queryPost = "DELETE FROM " . $this->table . " WHERE id = :id";
+            $queryPost = "DELETE FROM " . self::TABLE_NAME . " WHERE id = :id";
             $stmtPost = $this->conn->prepare($queryPost);
             $stmtPost->bindParam(':id', $postId, PDO::PARAM_INT);
             $stmtPost->execute();
@@ -154,7 +154,7 @@ class Post
     // Méthode pour récupérer un article par son ID
     public function getPostById($id)
     {
-        $query = "SELECT * FROM " . $this->table . " WHERE id = ?";
+        $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $stmt->execute();

@@ -7,7 +7,7 @@ require_once __DIR__ . '/../config/Database.php';
 class Comment
 {
     private $conn; // Connexion à la base de données
-    private $table = 'comments'; // Nom de la table des commentaires
+    private const TABLE_NAME = 'comments'; // Nom de la table des commentaires (constante)
 
     // Propriétés de la classe
     public $id;
@@ -28,7 +28,7 @@ class Comment
     public function create()
     {
         // Requête SQL pour insérer un nouveau commentaire
-        $query = "INSERT INTO " . $this->table . " (post_id, user_id, content, created_at, is_validated) VALUES (:post_id, :user_id, :content, NOW(), false)";
+        $query = "INSERT INTO " . self::TABLE_NAME . " (post_id, user_id, content, created_at, is_validated) VALUES (:post_id, :user_id, :content, NOW(), false)";
         $stmt = $this->conn->prepare($query);
 
         // Sécuriser les données
@@ -53,7 +53,7 @@ class Comment
     {
         // Requête SQL pour sélectionner tous les commentaires validés d'un post
         $query = "SELECT c.id, c.post_id, c.user_id, c.content, c.created_at, u.username AS user_name 
-                  FROM " . $this->table . " c 
+                  FROM " . self::TABLE_NAME . " c 
                   JOIN users u ON c.user_id = u.id 
                   WHERE c.post_id = ? AND c.is_validated = true 
                   ORDER BY c.created_at DESC";
@@ -71,7 +71,7 @@ class Comment
         // Requête SQL pour sélectionner un commentaire par ID
         $commentId = intval($commentId);
         $query = "SELECT c.id, c.post_id, c.user_id, c.content, c.created_at, u.username AS user_name 
-                  FROM " . $this->table . " c
+                  FROM " . self::TABLE_NAME . " c
                   JOIN users u ON c.user_id = u.id
                   WHERE c.id = ?";
         $stmt = $this->conn->prepare($query);
@@ -88,7 +88,7 @@ class Comment
     {
         // Requête SQL pour sélectionner un commentaire par ID sans JOIN
         $query = "SELECT id, post_id, user_id, content, created_at 
-                FROM " . $this->table . " 
+                FROM " . self::TABLE_NAME . " 
                 WHERE id = ?";
         $stmt = $this->conn->prepare($query);
 
@@ -114,7 +114,7 @@ class Comment
     public function readOnValidated()
     {
         // Requête SQL pour sélectionner les commentaires non validés
-        $query = "SELECT * FROM " . $this->table . " WHERE is_validated = false";
+        $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE is_validated = false";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -124,7 +124,7 @@ class Comment
     public function validateComment($commentId)
     {
         // Requête SQL pour valider un commentaire
-        $query = "UPDATE " . $this->table . " SET is_validated = true WHERE id = :id";
+        $query = "UPDATE " . self::TABLE_NAME . " SET is_validated = true WHERE id = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $commentId, PDO::PARAM_INT);
 
@@ -139,7 +139,7 @@ class Comment
     public function delete($commentId)
     {
         // Requête SQL pour supprimer un commentaire
-        $query = "DELETE FROM " . $this->table . " WHERE id = :id";
+        $query = "DELETE FROM " . self::TABLE_NAME . " WHERE id = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $commentId, PDO::PARAM_INT);
 
@@ -154,7 +154,7 @@ class Comment
     public function getValidatedCommentsByPostId($postId)
     {
         // Requête SQL pour sélectionner les commentaires validés par post_id
-        $query = "SELECT * FROM " . $this->table . " WHERE post_id = :post_id AND is_validated = true";
+        $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE post_id = :post_id AND is_validated = true";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':post_id', $postId, PDO::PARAM_INT);
         $stmt->execute();
@@ -165,10 +165,9 @@ class Comment
     public function getUnvalidatedComments()
     {
         // Requête SQL pour sélectionner les commentaires non validés
-        $query = "SELECT * FROM " . $this->table . " WHERE is_validated = false";
+        $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE is_validated = false";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-

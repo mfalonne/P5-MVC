@@ -7,7 +7,7 @@ require_once '../config/Database.php';
 class User
 {
     private $conn; // Connexion à la base de données
-    private $table = 'users'; // Nom de la table des utilisateurs
+    private const TABLE_NAME = 'users'; // Nom de la table des utilisateurs (constante)
 
     // Propriétés de l'utilisateur
     public $id;
@@ -26,7 +26,7 @@ class User
     public function create($username, $password, $isAdmin)
     {
         // Requête SQL pour insérer un nouvel utilisateur
-        $query = 'INSERT INTO ' . $this->table . ' (username, password, is_admin) VALUES (:username, :password, :is_admin)';
+        $query = 'INSERT INTO ' . self::TABLE_NAME . ' (username, password, is_admin) VALUES (:username, :password, :is_admin)';
         
         // Préparation de la requête SQL
         $stmt = $this->conn->prepare($query);
@@ -52,7 +52,7 @@ class User
     public function read()
     {
         // Requête SQL pour sélectionner tous les utilisateurs
-        $query = 'SELECT id, username, password, is_admin FROM ' . $this->table;
+        $query = 'SELECT id, username, password, is_admin FROM ' . self::TABLE_NAME;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -62,7 +62,7 @@ class User
     public function readOne()
     {
         // Requête SQL pour sélectionner un utilisateur par son ID
-        $query = 'SELECT id, username, is_admin FROM ' . $this->table . ' WHERE id = ?';
+        $query = 'SELECT id, username, is_admin FROM ' . self::TABLE_NAME . ' WHERE id = ?';
         $stmt = $this->conn->prepare($query);
 
         // Liaison du paramètre ID
@@ -81,7 +81,7 @@ class User
     public function update()
     {
         // Requête SQL pour mettre à jour un utilisateur
-        $query = 'UPDATE ' . $this->table . ' SET username = :username, password = :password, is_admin = :is_admin WHERE id = :id';
+        $query = 'UPDATE ' . self::TABLE_NAME . ' SET username = :username, password = :password, is_admin = :is_admin WHERE id = :id';
         $stmt = $this->conn->prepare($query);
 
         // Nettoyage des données et liaison des paramètres
@@ -107,7 +107,7 @@ class User
     public function delete()
     {
         // Requête SQL pour supprimer un utilisateur par son ID
-        $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+        $query = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE id = :id';
         $stmt = $this->conn->prepare($query);
 
         // Nettoyage des données et liaison des paramètres
