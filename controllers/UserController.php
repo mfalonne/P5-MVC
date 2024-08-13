@@ -33,13 +33,9 @@ class UserController
 
         // Création de l'utilisateur dans la base de données via le modèle
         if ($this->userModel->create($username, $password, $isAdmin)) {
-            header('Location: /login'); // Redirection vers la page de connexion après inscription
-            exit();
+            $this->redirect('/login'); // Redirection vers la page de connexion après inscription
         } else {
-            // Affiche la vue d'inscription avec un message d'erreur en cas d'échec
-            echo $this->twig->render('frontoffice/register.twig', [
-                'error' => 'Inscription échouée. Veuillez réessayer.',
-            ]);
+            $this->renderRegisterForm('Inscription échouée. Veuillez réessayer.');
         }
     }
 
@@ -54,9 +50,7 @@ class UserController
 
         // Vérifie si les champs sont vides
         if (empty($username) || empty($password)) {
-            echo $this->twig->render('frontoffice/login.twig', [
-                'error' => 'Veuillez remplir tous les champs.',
-            ]);
+            $this->renderLoginForm('Veuillez remplir tous les champs.');
             return;
         }
 
@@ -70,19 +64,13 @@ class UserController
                 $_SESSION['is_admin'] = $user['is_admin'];
 
                 // Redirection selon le rôle de l'utilisateur
-                if (!$_SESSION['is_admin']) {
-                    header('Location: /');
-                } else {
-                    header('Location: /dashboard');
-                    exit();
-                }
+                $this->redirect($_SESSION['is_admin'] ? '/dashboard' : '/');
+                return;
             }
         }
 
         // Affiche la vue de connexion avec un message d'erreur en cas d'échec
-        echo $this->twig->render('frontoffice/login.twig', [
-            'error' => 'Nom d’utilisateur ou mot de passe incorrect.',
-        ]);
+        $this->renderLoginForm('Nom d’utilisateur ou mot de passe incorrect.');
     }
 
     /**
@@ -117,5 +105,39 @@ class UserController
         // Suppression de l'utilisateur dans la base de données via le modèle
         return $this->userModel->delete();
     }
-}
 
+    /**
+     * Redirige vers une nouvelle URL.
+     * 
+     * @param string $url L'URL vers laquelle rediriger.
+     */
+    private function redirect($url)
+    {
+        header('Location: ' . $url);
+        // Enlevez exit() pour permettre à l'appelant de gérer la fin de l'exécution
+    }
+
+    /**
+     * Affiche le formulaire d'inscription avec éventuellement un message d'erreur.
+     * 
+     * @param string|null $error Message d'erreur à afficher (si applicable).
+     */
+    private function renderRegisterForm($error = null)
+    {
+        echo $this->twig->render('frontoffice/register.twig', [
+            'error' => $error,
+        ]);
+    }
+
+    /**
+     * Affiche le formulaire de connexion avec éventuellement un message d'erreur.
+     * 
+     * @param string|null $error Message d'erreur à afficher (si applicable).
+     */
+    private function renderLoginForm($error = null)
+    {
+        echo $this->twig->render('frontoffice/login.twig', [
+            'error' => $error,
+        ]);
+    }
+}

@@ -30,7 +30,7 @@ class Database
         } catch (PDOException $exception) {
             error_log("[" . date("Y-m-d H:i:s") . "] Erreur de connexion : " . $exception->getMessage() . PHP_EOL, 3, __DIR__ . "/logs/error_log.txt");
 
-            // Vous pouvez lancer une exception personnalisée ici
+            // une exception
             throw new Exception("Erreur de connexion à la base de données.");
         }
 

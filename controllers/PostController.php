@@ -35,10 +35,10 @@ class PostController
     public function createPost()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Vérifie si la requête est de type POST
-            $userId = $_SESSION['user_id']; // Récupère l'ID de l'utilisateur à partir de la session
-            $title = $_POST['title']; // Récupère le titre de l'article depuis les données de formulaire
-            $chapo = $_POST['chapo']; // Récupère le chapo de l'article depuis les données de formulaire
-            $content = $_POST['content']; // Récupère le contenu de l'article depuis les données de formulaire
+            $userId = $_SESSION['user_id'] ?? null; // Récupère l'ID de l'utilisateur à partir de la session
+            $title = $_POST['title'] ?? ''; // Récupère le titre de l'article depuis les données de formulaire
+            $chapo = $_POST['chapo'] ?? ''; // Récupère le chapo de l'article depuis les données de formulaire
+            $content = $_POST['content'] ?? ''; // Récupère le contenu de l'article depuis les données de formulaire
 
             // Attribution des valeurs aux propriétés de l'objet modèle d'article
             $this->postModel->user_id = $userId;
@@ -48,15 +48,12 @@ class PostController
 
             // Création de l'article dans la base de données via le modèle
             if ($this->postModel->create()) {
-                header('Location: /dashboard'); // Redirection vers le tableau de bord après création de l'article
-                exit();
+                $this->redirect('/dashboard'); // Redirection vers le tableau de bord après création de l'article
             } else {
-                // Affiche la vue d'ajout d'article avec un message d'erreur en cas d'échec
-                echo $this->twig->render('add_post.twig', ['error' => 'Failed to create post.']);
+                $this->renderForm('Failed to create post.');
             }
         } else {
-            // Affiche la vue de formulaire d'ajout d'article si la requête n'est pas de type POST
-            echo $this->twig->render('dashboard/add_post.twig');
+            $this->renderForm();
         }
     }
 
@@ -69,10 +66,10 @@ class PostController
         $postId = $_GET['id'] ?? null; // Récupère l'ID de l'article depuis les paramètres de requête
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $postId) { // Vérifie si la requête est de type POST et si l'ID de l'article est présent
-            $userId = $_SESSION['user_id']; // Récupère l'ID de l'utilisateur à partir de la session
-            $title = $_POST['title']; // Récupère le titre de l'article depuis les données de formulaire
-            $chapo = $_POST['chapo']; // Récupère le chapo de l'article depuis les données de formulaire
-            $content = $_POST['content']; // Récupère le contenu de l'article depuis les données de formulaire
+            $userId = $_SESSION['user_id'] ?? null; // Récupère l'ID de l'utilisateur à partir de la session
+            $title = $_POST['title'] ?? ''; // Récupère le titre de l'article depuis les données de formulaire
+            $chapo = $_POST['chapo'] ?? ''; // Récupère le chapo de l'article depuis les données de formulaire
+            $content = $_POST['content'] ?? ''; // Récupère le contenu de l'article depuis les données de formulaire
 
             // Attribution des valeurs aux propriétés de l'objet modèle d'article
             $this->postModel->id = $postId;
@@ -83,21 +80,16 @@ class PostController
 
             // Mise à jour de l'article dans la base de données via le modèle
             if ($this->postModel->update()) {
-                header('Location: /dashboard'); // Redirection vers le tableau de bord après édition de l'article
-                exit();
+                $this->redirect('/dashboard'); // Redirection vers le tableau de bord après édition de l'article
             } else {
-                // Affiche la vue d'édition d'article avec un message d'erreur en cas d'échec
-                echo $this->twig->render('dashboard/edit_post.twig', ['error' => 'Failed to update post.']);
+                $this->renderForm('Failed to update post.', $postId);
             }
         } else {
             if ($postId) {
-                // Affiche la vue d'édition d'article avec les détails de l'article à éditer
                 $post = $this->getPostById($postId);
-                echo $this->twig->render('dashboard/edit_post.twig', ['post' => $post]);
+                $this->renderForm(null, $post);
             } else {
-                // Affiche la vue 404 si l'ID de l'article est manquant
-                http_response_code(404);
-                echo $this->twig->render('404.twig');
+                $this->render404();
             }
         }
     }
@@ -113,8 +105,7 @@ class PostController
 
             // Supprime l'article de la base de données via le modèle
             if ($this->postModel->delete($postId)) {
-                header('Location: /dashboard'); // Redirection vers le tableau de bord après suppression de l'article
-                exit();
+                $this->redirect('/dashboard'); // Redirection vers le tableau de bord après suppression de l'article
             } else {
                 echo 'Failed to delete post.'; // Affiche un message d'erreur en cas d'échec de la suppression de l'article
             }
@@ -147,5 +138,38 @@ class PostController
         $comments = $commentModel->getValidatedCommentsByPostId($postId); // Récupère les commentaires validés associés à l'article
         echo $this->twig->render('post_detail.twig', ['post' => $post, 'comments' => $comments]); // Affiche la vue des détails de l'article avec les commentaires
     }
-}
 
+    /**
+     * Redirige vers une nouvelle URL.
+     * 
+     * @param string $url L'URL vers laquelle rediriger.
+     */
+    private function redirect($url)
+    {
+        header('Location: ' . $url);
+        // Enlevez exit() pour permettre à l'appelant de gérer la fin de l'exécution
+    }
+
+    /**
+     * Affiche le formulaire d'ajout ou d'édition d'article.
+     * 
+     * @param string|null $error Message d'erreur à afficher (si applicable).
+     * @param Post|null $post Instance du modèle Post pour pré-remplir le formulaire (si applicable).
+     */
+    private function renderForm($error = null, $post = null)
+    {
+        echo $this->twig->render('dashboard/add_post.twig', [
+            'error' => $error,
+            'post' => $post
+        ]);
+    }
+
+    /**
+     * Affiche la page 404.
+     */
+    private function render404()
+    {
+        http_response_code(404);
+        echo $this->twig->render('404.twig');
+    }
+}
