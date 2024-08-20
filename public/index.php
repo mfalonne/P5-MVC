@@ -184,7 +184,7 @@ switch ($route) {
             header('Location: /login'); // Redirige vers la page de connexion si l'utilisateur n'est pas connecté ou n'est pas admin
             exit();
         }
-        $comments = $commentController->getUnValidatedComment();
+        $comments = $commentController->getUnValidatedComments();
 
         echo $twig->render('dashboard/comments.twig', ['comments' => $comments]); // Rendu de la vue dashboard/posts.twig
         break;
