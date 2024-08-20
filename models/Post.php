@@ -75,24 +75,24 @@ class Post
     // Méthode pour lire un article spécifique de la base de données
     public function readOne()
     {
-        // Requête SQL pour sélectionner un article par son ID
         $query = "SELECT id, user_id, title, chapo, content, created_at FROM " . self::TABLE_NAME . " WHERE id = ?";
         $stmt = $this->conn->prepare($query);
-
-        // Lier le paramètre ID
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
-
-        // Récupérer le résultat
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Attribution des valeurs récupérées aux propriétés de l'objet article
-        $this->user_id = $row['user_id'];
-        $this->title = $row['title'];
-        $this->chapo = $row['chapo'];
-        $this->content = $row['content'];
-        $this->created_at = $row['created_at'];
+        if ($row) {
+            $this->user_id = $row['user_id'];
+            $this->title = $row['title'];
+            $this->chapo = $row['chapo'];
+            $this->content = $row['content'];
+            $this->created_at = $row['created_at'];
+        } else {
+            // Gérer le cas où aucun article n'est trouvé
+            $this->id = null;
+        }
     }
+
 
     // Méthode pour mettre à jour un article dans la base de données
     public function update()

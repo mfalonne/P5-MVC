@@ -63,36 +63,45 @@ class PostController
      */
     public function editPost()
     {
-        $postId = $_GET['id'] ?? null; // Récupère l'ID de l'article depuis les paramètres de requête
+        $postId = $_GET['id'] ?? null;
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $postId) { // Vérifie si la requête est de type POST et si l'ID de l'article est présent
-            $userId = $_SESSION['user_id'] ?? null; // Récupère l'ID de l'utilisateur à partir de la session
-            $title = $_POST['title'] ?? ''; // Récupère le titre de l'article depuis les données de formulaire
-            $chapo = $_POST['chapo'] ?? ''; // Récupère le chapo de l'article depuis les données de formulaire
-            $content = $_POST['content'] ?? ''; // Récupère le contenu de l'article depuis les données de formulaire
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $postId) {
+            $userId = $_SESSION['user_id'] ?? null;
+            $title = $_POST['title'] ?? '';
+            $chapo = $_POST['chapo'] ?? '';
+            $content = $_POST['content'] ?? '';
 
-            // Attribution des valeurs aux propriétés de l'objet modèle d'article
+            if (empty($title) || empty($content)) {
+                $this->renderForm('Le titre et le contenu sont requis.', $postId);
+                return;
+            }
+
             $this->postModel->id = $postId;
             $this->postModel->user_id = $userId;
             $this->postModel->title = $title;
             $this->postModel->chapo = $chapo;
             $this->postModel->content = $content;
 
-            // Mise à jour de l'article dans la base de données via le modèle
             if ($this->postModel->update()) {
-                $this->redirect('/dashboard'); // Redirection vers le tableau de bord après édition de l'article
+                $this->redirect('/dashboard');
             } else {
-                $this->renderForm('Failed to update post.', $postId);
+                $this->renderForm('Échec de la mise à jour de l\'article.', $postId);
             }
         } else {
             if ($postId) {
                 $post = $this->getPostById($postId);
-                $this->renderForm(null, $post);
+                if ($post->id) { // Vérifie si l'article a été trouvé
+                    $this->renderForm(null, $post);
+                } else {
+                    $this->render404(); // Article non trouvé
+                }
             } else {
-                $this->render404();
+                $this->render404(); // ID de l'article manquant
             }
         }
     }
+
+
 
     /**
      * Méthode pour supprimer un article.
@@ -157,12 +166,12 @@ class PostController
      * @param Post|null $post Instance du modèle Post pour pré-remplir le formulaire (si applicable).
      */
     private function renderForm($error = null, $post = null)
-    {
-        echo $this->twig->render('dashboard/add_post.twig', [
-            'error' => $error,
-            'post' => $post
-        ]);
-    }
+{
+    echo $this->twig->render('dashboard/edit_post.twig', [
+        'error' => $error,
+        'post' => $post
+    ]);
+}
 
     /**
      * Affiche la page 404.
