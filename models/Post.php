@@ -27,30 +27,34 @@ class Post
     // Méthode pour créer un nouvel article dans la base de données
     public function create()
     {
-        // Requête SQL pour insérer un nouvel article
-        $query = "INSERT INTO " . self::TABLE_NAME . " (user_id, title, chapo, content, created_at) VALUES (:user_id, :title, :chapo, :content, NOW())";
-        
-        // Préparation de la requête SQL
-        $stmt = $this->conn->prepare($query);
+        try {
+            // Requête SQL pour insérer un nouvel article
+            $query = "INSERT INTO " . self::TABLE_NAME . " (user_id, title, chapo, content, created_at) VALUES (:user_id, :title, :chapo, :content, NOW())";
+            
+            // Préparation de la requête SQL
+            $stmt = $this->conn->prepare($query);
 
-        // Nettoyage des données et liaison des paramètres
-        $this->user_id = htmlspecialchars(strip_tags($this->user_id));
-        $this->title = htmlspecialchars(strip_tags($this->title));
-        $this->chapo = $this->chapo; 
-        $this->content = $this->content; // Le contenu est conservé tel quel
+            // Nettoyage des données et liaison des paramètres
+            $this->user_id = htmlspecialchars(strip_tags($this->user_id));
+            $this->title = htmlspecialchars(strip_tags($this->title));
+            $this->chapo = htmlspecialchars(strip_tags($this->chapo)); // Nettoyage du chapo
+            $this->content = htmlspecialchars($this->content); // Nettoyage du contenu (si nécessaire)
 
-        // Lie les paramètres de la requête SQL aux variables correspondantes
-        $stmt->bindParam(':user_id', $this->user_id);
-        $stmt->bindParam(':title', $this->title);
-        $stmt->bindParam(':chapo', $this->chapo); // Liaison du chapo
-        $stmt->bindParam(':content', $this->content);
+            // Lie les paramètres de la requête SQL aux variables correspondantes
+            $stmt->bindParam(':user_id', $this->user_id, PDO::PARAM_INT);
+            $stmt->bindParam(':title', $this->title, PDO::PARAM_STR);
+            $stmt->bindParam(':chapo', $this->chapo, PDO::PARAM_STR);
+            $stmt->bindParam(':content', $this->content, PDO::PARAM_STR);
 
-        // Exécution de la requête SQL et retour du résultat
-        if ($stmt->execute()) {
-            return true;
+            // Exécution de la requête SQL et retour du résultat
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            // Gestion des erreurs de la base de données
+            error_log('Database error: ' . $e->getMessage());
+            return false;
         }
-        return false;
     }
+
 
     // Méthode pour lire tous les articles de la base de données
     public function read()

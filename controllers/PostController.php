@@ -34,26 +34,24 @@ class PostController
      */
     public function createPost()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Vérifie si la requête est de type POST
-            $userId = $_SESSION['user_id'] ?? null; // Récupère l'ID de l'utilisateur à partir de la session
-            $title = $_POST['title'] ?? ''; // Récupère le titre de l'article depuis les données de formulaire
-            $chapo = $_POST['chapo'] ?? ''; // Récupère le chapo de l'article depuis les données de formulaire
-            $content = $_POST['content'] ?? ''; // Récupère le contenu de l'article depuis les données de formulaire
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_SESSION['user_id'] ?? null;
+            $title = $_POST['title'] ?? '';
+            $chapo = $_POST['chapo'] ?? '';
+            $content = $_POST['content'] ?? '';
 
-            // Attribution des valeurs aux propriétés de l'objet modèle d'article
             $this->postModel->user_id = $userId;
             $this->postModel->title = $title;
             $this->postModel->chapo = $chapo;
             $this->postModel->content = $content;
 
-            // Création de l'article dans la base de données via le modèle
             if ($this->postModel->create()) {
-                $this->redirect('/dashboard'); // Redirection vers le tableau de bord après création de l'article
+                $this->redirect('/dashboard');
             } else {
-                $this->renderForm('Failed to create post.');
+                $this->renderAddForm('Failed to create post.');
             }
         } else {
-            $this->renderForm();
+            $this->renderAddForm();
         }
     }
 
@@ -100,8 +98,6 @@ class PostController
             }
         }
     }
-
-
 
     /**
      * Méthode pour supprimer un article.
@@ -166,12 +162,19 @@ class PostController
      * @param Post|null $post Instance du modèle Post pour pré-remplir le formulaire (si applicable).
      */
     private function renderForm($error = null, $post = null)
-{
-    echo $this->twig->render('dashboard/edit_post.twig', [
-        'error' => $error,
-        'post' => $post
-    ]);
-}
+    {
+        echo $this->twig->render('dashboard/edit_post.twig', [
+            'error' => $error,
+            'post' => $post
+        ]);
+    }
+
+    private function renderAddForm($error = null)
+    {
+        echo $this->twig->render('dashboard/add_post.twig', [
+            'error' => $error
+        ]);
+    }
 
     /**
      * Affiche la page 404.
